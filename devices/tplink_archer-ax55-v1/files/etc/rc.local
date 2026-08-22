@@ -1,0 +1,32 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+(
+    # Ждем 45 секунд, чтобы ядро успело полностью загрузиться
+    sleep 45
+    
+    mkdir -p /mnt/usb
+    
+    # Пытаемся примонтировать sda1 (первый раздел флешки)
+    if [ -b /dev/sda1 ]; then
+        mount /dev/sda1 /mnt/usb
+        
+        # Если монтирование прошло успешно
+        if grep -qs '/mnt/usb' /proc/mounts; then
+            echo "=== DMESG ===" > /mnt/usb/ax55_dmesg.txt
+            dmesg >> /mnt/usb/ax55_dmesg.txt
+            
+            echo "=== SYSTEM LOG ===" > /mnt/usb/ax55_logread.txt
+            logread >> /mnt/usb/ax55_logread.txt
+            
+            echo "=== NETWORK INTERFACES ===" > /mnt/usb/ax55_ip.txt
+            ip a >> /mnt/usb/ax55_ip.txt
+            
+            # Сбрасываем кэш на флешку и безопасно отключаем
+            sync
+            umount /mnt/usb
+        fi
+    fi
+) &
+
+exit 0
