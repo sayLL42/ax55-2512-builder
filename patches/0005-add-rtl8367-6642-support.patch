@@ -1,0 +1,12 @@
+--- /dev/null
++++ b/target/linux/generic/pending-6.18/999-rtl8365mb-6642-id.patch
+@@ -0,0 +1,12 @@
++--- a/drivers/net/dsa/realtek/rtl8365mb.c
+++++ b/drivers/net/dsa/realtek/rtl8365mb.c
++@@ -1989,5 +1989,6 @@
++ 	case 0x6367:
++ 	case 0x6564:
++ 	case 0x8367:
+++	case 0x6642:
++ 		break;
++ 	default:
