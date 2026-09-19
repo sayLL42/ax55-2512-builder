@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-echo "src-git homeproxy https://github.com/VIKINGYFY/homeproxy.git" >> $OPENWRT_DIR/feeds.conf.default
 # Prepare an OpenWrt source tree for the AX55 v1 build:
 #   - fetch the published patch + BDFs from the sources repo (SOURCES_*)
 #   - apply the patch with git apply (atomic: any rejected hunk fails the run)
@@ -181,3 +180,4 @@ if [[ -d "$BUILDER_REPO/$DEVICE_DIR/files" ]]; then
 fi
 
 log::info "Build environment ready."
+git clone --depth 1 https://github.com/VIKINGYFY/homeproxy.git $OPENWRT_DIR/package/homeproxy
