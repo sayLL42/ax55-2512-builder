@@ -1,7 +1,7 @@
-From 3cba147f8570ea08aaf407fc19709617c3c37abf Mon Sep 17 00:00:00 2001
+From aae5c80e9d2f3cfabd326cf3b816ca2496649326 Mon Sep 17 00:00:00 2001
 From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
-Date: Sun, 6 Sep 2026 17:46:42 +0200
-Subject: [PATCH] generic: rtl8365mb: add support for RTL8367S-VB
+Date: Thu, 3 Sep 2026 19:02:15 +0200
+Subject: [PATCH 1/6] generic: rtl8365mb: add support for RTL8367S-VB
 
 First attempt to add support for the rtl8367d family including
 the rtl8367s-vb chip.
@@ -11,47 +11,43 @@ Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
  ...realtek-rtl8365mb-detect-RTL8367S-VB.patch | 130 +++++++
  ...tek-rtl8365mb-set-speed-for-family-D.patch | 128 +++++++
  ...ltek-rtl8365mb-get-pvid-for-family-D.patch |  61 +++
- ...tl8365mb-set-RGMII-mode-for-family-D.patch |  71 ++++
- ...5mb-set-and-get-vlan-4k-for-family-D.patch |  91 +++++
+ ...RGMII-mode-for-rtl8367d-family-chips.patch |  72 ++++
+ ...et-vlan-4k-for-rtl8367d-family-chips.patch |  66 ++++
  ...tl8365mb-set-clear-pvid-for-family-D.patch | 181 +++++++++
- ...365mb-add-family-D-SDS13-PCS-support.patch | 351 ++++++++++++++++++
- ...l8365mb-re-latch-the-family-D-serdes.patch | 249 +++++++++++++
+ ...365mb-add-family-D-SDS13-PCS-support.patch | 359 ++++++++++++++++++
  ...realtek-rtl8365mb-detect-RTL8367S-VB.patch | 130 +++++++
  ...tek-rtl8365mb-set-speed-for-family-D.patch | 128 +++++++
  ...ltek-rtl8365mb-get-pvid-for-family-D.patch |  61 +++
- ...tl8365mb-set-RGMII-mode-for-family-D.patch |  71 ++++
- ...5mb-set-and-get-vlan-4k-for-family-D.patch |  91 +++++
+ ...RGMII-mode-for-rtl8367d-family-chips.patch |  72 ++++
+ ...et-vlan-4k-for-rtl8367d-family-chips.patch |  66 ++++
  ...tl8365mb-set-clear-pvid-for-family-D.patch | 181 +++++++++
- ...365mb-add-family-D-SDS13-PCS-support.patch | 351 ++++++++++++++++++
- ...l8365mb-re-latch-the-family-D-serdes.patch | 249 +++++++++++++
- 16 files changed, 2524 insertions(+)
+ ...365mb-add-family-D-SDS13-PCS-support.patch | 359 ++++++++++++++++++
+ 14 files changed, 1994 insertions(+)
  create mode 100644 target/linux/generic/pending-6.12/930-1-net-dsa-realtek-rtl8365mb-detect-RTL8367S-VB.patch
  create mode 100644 target/linux/generic/pending-6.12/930-2-net-dsa-realtek-rtl8365mb-set-speed-for-family-D.patch
  create mode 100644 target/linux/generic/pending-6.12/930-3-net-dsa-realtek-rtl8365mb-get-pvid-for-family-D.patch
- create mode 100644 target/linux/generic/pending-6.12/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-family-D.patch
- create mode 100644 target/linux/generic/pending-6.12/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-family-D.patch
+ create mode 100644 target/linux/generic/pending-6.12/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-rtl8367d-family-chips.patch
+ create mode 100644 target/linux/generic/pending-6.12/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-rtl8367d-family-chips.patch
  create mode 100644 target/linux/generic/pending-6.12/930-6-net-dsa-realtek-rtl8365mb-set-clear-pvid-for-family-D.patch
  create mode 100644 target/linux/generic/pending-6.12/930-7-net-dsa-realtek-rtl8365mb-add-family-D-SDS13-PCS-support.patch
- create mode 100644 target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
  create mode 100644 target/linux/generic/pending-6.18/930-1-net-dsa-realtek-rtl8365mb-detect-RTL8367S-VB.patch
  create mode 100644 target/linux/generic/pending-6.18/930-2-net-dsa-realtek-rtl8365mb-set-speed-for-family-D.patch
  create mode 100644 target/linux/generic/pending-6.18/930-3-net-dsa-realtek-rtl8365mb-get-pvid-for-family-D.patch
- create mode 100644 target/linux/generic/pending-6.18/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-family-D.patch
- create mode 100644 target/linux/generic/pending-6.18/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-family-D.patch
+ create mode 100644 target/linux/generic/pending-6.18/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-rtl8367d-family-chips.patch
+ create mode 100644 target/linux/generic/pending-6.18/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-rtl8367d-family-chips.patch
  create mode 100644 target/linux/generic/pending-6.18/930-6-net-dsa-realtek-rtl8365mb-set-clear-pvid-for-family-D.patch
  create mode 100644 target/linux/generic/pending-6.18/930-7-net-dsa-realtek-rtl8365mb-add-family-D-SDS13-PCS-support.patch
- create mode 100644 target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
 
 diff --git a/target/linux/generic/pending-6.12/930-1-net-dsa-realtek-rtl8365mb-detect-RTL8367S-VB.patch b/target/linux/generic/pending-6.12/930-1-net-dsa-realtek-rtl8365mb-detect-RTL8367S-VB.patch
 new file mode 100644
-index 00000000000000..7d3570be115073
+index 00000000000000..08c8bab15314ce
 --- /dev/null
 +++ b/target/linux/generic/pending-6.12/930-1-net-dsa-realtek-rtl8365mb-detect-RTL8367S-VB.patch
 @@ -0,0 +1,130 @@
 +From 18cdfcbf83b9455fe8936fae7b0e1365517649a0 Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Sat, 13 Jun 2026 00:19:37 +0200
-+Subject: [PATCH 1/8] net: dsa: realtek: rtl8365mb: detect RTL8367S-VB
++Subject: [PATCH 1/7] net: dsa: realtek: rtl8365mb: detect RTL8367S-VB
 +
 +Detect RTL8367S-VB and set family.
 +
@@ -180,14 +176,14 @@ index 00000000000000..7d3570be115073
 + 	u32 val;
 diff --git a/target/linux/generic/pending-6.12/930-2-net-dsa-realtek-rtl8365mb-set-speed-for-family-D.patch b/target/linux/generic/pending-6.12/930-2-net-dsa-realtek-rtl8365mb-set-speed-for-family-D.patch
 new file mode 100644
-index 00000000000000..3ca7fb8ae8e67a
+index 00000000000000..fcb85873264729
 --- /dev/null
 +++ b/target/linux/generic/pending-6.12/930-2-net-dsa-realtek-rtl8365mb-set-speed-for-family-D.patch
 @@ -0,0 +1,128 @@
 +From 925eb475db4e09ede63d08312c18d19976b3d4b0 Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Wed, 22 Jul 2026 22:47:26 +0200
-+Subject: [PATCH 2/8] net: dsa: realtek: rtl8365mb: set speed for family D
++Subject: [PATCH 2/7] net: dsa: realtek: rtl8365mb: set speed for family D
 +
 +Set speed for family D.
 +
@@ -314,14 +310,14 @@ index 00000000000000..3ca7fb8ae8e67a
 + }
 diff --git a/target/linux/generic/pending-6.12/930-3-net-dsa-realtek-rtl8365mb-get-pvid-for-family-D.patch b/target/linux/generic/pending-6.12/930-3-net-dsa-realtek-rtl8365mb-get-pvid-for-family-D.patch
 new file mode 100644
-index 00000000000000..53392db8fd036a
+index 00000000000000..7476098b7ef25b
 --- /dev/null
 +++ b/target/linux/generic/pending-6.12/930-3-net-dsa-realtek-rtl8365mb-get-pvid-for-family-D.patch
 @@ -0,0 +1,61 @@
 +From 4345ad12df40be422295b5641ca310bcbd012b47 Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Fri, 24 Jul 2026 03:09:09 +0200
-+Subject: [PATCH 3/8] net: dsa: realtek: rtl8365mb: get pvid for family D
++Subject: [PATCH 3/7] net: dsa: realtek: rtl8365mb: get pvid for family D
 +
 +Get pvid for family D chips.
 +
@@ -379,16 +375,17 @@ index 00000000000000..53392db8fd036a
 + 	return 0;
 + }
 + 
-diff --git a/target/linux/generic/pending-6.12/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-family-D.patch b/target/linux/generic/pending-6.12/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-family-D.patch
+diff --git a/target/linux/generic/pending-6.12/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-rtl8367d-family-chips.patch b/target/linux/generic/pending-6.12/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-rtl8367d-family-chips.patch
 new file mode 100644
-index 00000000000000..0726cbf099c28c
+index 00000000000000..d8c4d309a5b805
 --- /dev/null
-+++ b/target/linux/generic/pending-6.12/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-family-D.patch
-@@ -0,0 +1,71 @@
-+From 594b4d7fe124b06d15338b391517ac561065f4c7 Mon Sep 17 00:00:00 2001
++++ b/target/linux/generic/pending-6.12/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-rtl8367d-family-chips.patch
+@@ -0,0 +1,72 @@
++From 4ae557ea1115582da0d537a96d7517faba6a5a12 Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Fri, 24 Jul 2026 04:38:53 +0200
-+Subject: [PATCH 4/8] net: dsa: realtek: set RGMII mode for family D
++Subject: [PATCH 4/7] net: dsa: realtek: rtl8365mb: set RGMII mode for rtl8367d
++ family chips
 +
 +Set RGMII mode for rtl8367d family chips
 +
@@ -456,37 +453,28 @@ index 00000000000000..0726cbf099c28c
 + 	return 0;
 + }
 + 
-diff --git a/target/linux/generic/pending-6.12/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-family-D.patch b/target/linux/generic/pending-6.12/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-family-D.patch
+diff --git a/target/linux/generic/pending-6.12/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-rtl8367d-family-chips.patch b/target/linux/generic/pending-6.12/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-rtl8367d-family-chips.patch
 new file mode 100644
-index 00000000000000..cb75c34ca32261
+index 00000000000000..fc420ac44cdd7a
 --- /dev/null
-+++ b/target/linux/generic/pending-6.12/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-family-D.patch
-@@ -0,0 +1,91 @@
-+From f7e2813203586442e58847ca05724f7cea6b62e7 Mon Sep 17 00:00:00 2001
++++ b/target/linux/generic/pending-6.12/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-rtl8367d-family-chips.patch
+@@ -0,0 +1,66 @@
++From da476b9cb7b2308160cc82b54ea51dbacf0942ef Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Fri, 24 Jul 2026 05:35:45 +0200
-+Subject: [PATCH 5/8] net: dsa: realtek: rtl8365mb: set and get vlan 4k for
-+ family D
++Subject: [PATCH 5/7] net: dsa: realtek: rtl8365mb: set and get vlan 4k for
++ rtl8367d family chips
 +
 +Set and get vlan 4k for rtl8367d family chips
 +
 +Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +---
-+ drivers/net/dsa/realtek/rtl8365mb_vlan.c | 34 +++++++++++++++++++-----
-+ 1 file changed, 28 insertions(+), 6 deletions(-)
++ drivers/net/dsa/realtek/rtl8365mb_vlan.c | 23 +++++++++++++++++++----
++ 1 file changed, 19 insertions(+), 4 deletions(-)
 +
 +--- a/drivers/net/dsa/realtek/rtl8365mb_vlan.c
 ++++ b/drivers/net/dsa/realtek/rtl8365mb_vlan.c
-+@@ -66,6 +66,8 @@
-+ #define RTL8365MB_CVLAN_ENTRY_D1_METERIDX_MASK		GENMASK(13, 9)
-+ #define   RTL8365MB_CVLAN_METERIDX_LO_MASK		GENMASK(4, 0)
-+ #define RTL8365MB_CVLAN_ENTRY_D1_IVL_SVL_MASK		GENMASK(14, 14)
-++#define RTL8365MB_D_CVLAN_ENTRY_D1_SVLAN_CHECK_MASK	GENMASK(2, 2)
-++#define RTL8365MB_D_CVLAN_ENTRY_D1_IVL_EN_MASK		GENMASK(3, 3)
-+ /* extends RTL8365MB_CVLAN_ENTRY_D0_MBR_MASK */
-+ #define RTL8365MB_CVLAN_ENTRY_D2_MBR_EXT_MASK		GENMASK(2, 0)
-+ #define   RTL8365MB_CVLAN_MBR_HI_MASK			GENMASK(10, 8)
-+@@ -97,6 +99,8 @@
++@@ -97,6 +97,8 @@
 + #define RTL8365MB_METERMAX	63
 + #define RTL8365MB_VLAN_MCMAX	31
 + 
@@ -495,7 +483,7 @@ index 00000000000000..cb75c34ca32261
 + /* RTL8367S supports 4k vlans (vid<=4095) and 32 enhanced vlans
 +  * for VIDs up to 8191
 +  */
-+@@ -215,7 +219,11 @@ static int rtl8365mb_vlan_4k_read(struct
++@@ -215,7 +217,11 @@ static int rtl8365mb_vlan_4k_read(struct
 + 	val = FIELD_GET(RTL8365MB_CVLAN_ENTRY_D2_UNTAG_EXT_MASK, data[2]);
 + 	vlan4k->untag |= FIELD_PREP(RTL8365MB_CVLAN_UNTAG_HI_MASK, val);
 + 
@@ -508,31 +496,15 @@ index 00000000000000..cb75c34ca32261
 + 	vlan4k->priority_en =
 + 		FIELD_GET(RTL8365MB_CVLAN_ENTRY_D1_VBPEN_MASK, data[1]);
 + 	vlan4k->priority =
-+@@ -230,8 +238,12 @@ static int rtl8365mb_vlan_4k_read(struct
-+ 	val = FIELD_PREP(RTL8365MB_CVLAN_METERIDX_HI_MASK, val);
-+ 	vlan4k->meteridx |= val;
-+ 
-+-	vlan4k->ivl_en =
-+-		FIELD_GET(RTL8365MB_CVLAN_ENTRY_D1_IVL_SVL_MASK, data[1]);
-++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
-++		vlan4k->ivl_en =
-++			FIELD_GET(RTL8365MB_D_CVLAN_ENTRY_D1_IVL_EN_MASK, data[1]);
-++	else
-++		vlan4k->ivl_en =
-++			FIELD_GET(RTL8365MB_CVLAN_ENTRY_D1_IVL_SVL_MASK, data[1]);
-+ 
-+ 	return 0;
-+ }
-+@@ -250,7 +262,15 @@ static int rtl8365mb_vlan_4k_write(struc
++@@ -250,7 +256,14 @@ static int rtl8365mb_vlan_4k_write(struc
 + 	val = FIELD_GET(RTL8365MB_CVLAN_UNTAG_LO_MASK, vlan4k->untag);
 + 	data[0] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D0_UNTAG_MASK, val);
 + 
 +-	data[1] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D1_FID_MASK, vlan4k->fid);
 ++	/* FID handling differs between families */
 ++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
-++		val = (vlan4k->fid & RTL8365MB_D_FID_MAX) |
-++		      FIELD_PREP(RTL8365MB_D_CVLAN_ENTRY_D1_IVL_EN_MASK, 1) |
-++		      FIELD_PREP(RTL8365MB_D_CVLAN_ENTRY_D1_SVLAN_CHECK_MASK, 1);
+++		/* ivl_svl - BIT(3), svlan_check_ivl_svl - BIT(2) */
+++		val = (vlan4k->fid & RTL8365MB_D_FID_MAX) | BIT(3) | BIT(2);
 ++	} else {
 ++		val = vlan4k->fid;
 ++	}
@@ -540,7 +512,7 @@ index 00000000000000..cb75c34ca32261
 + 	data[1] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D1_VBPEN_MASK,
 + 			      vlan4k->priority_en);
 + 	data[1] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D1_VBPRI_MASK,
-+@@ -263,8 +283,10 @@ static int rtl8365mb_vlan_4k_write(struc
++@@ -263,8 +276,10 @@ static int rtl8365mb_vlan_4k_write(struc
 + 	val = FIELD_GET(RTL8365MB_CVLAN_METERIDX_LO_MASK, val);
 + 	data[1] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D1_METERIDX_MASK, val);
 + 
@@ -555,14 +527,14 @@ index 00000000000000..cb75c34ca32261
 + 	data[2] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D2_MBR_EXT_MASK, val);
 diff --git a/target/linux/generic/pending-6.12/930-6-net-dsa-realtek-rtl8365mb-set-clear-pvid-for-family-D.patch b/target/linux/generic/pending-6.12/930-6-net-dsa-realtek-rtl8365mb-set-clear-pvid-for-family-D.patch
 new file mode 100644
-index 00000000000000..74e1c7459d3d6e
+index 00000000000000..9a3e14694f0a8f
 --- /dev/null
 +++ b/target/linux/generic/pending-6.12/930-6-net-dsa-realtek-rtl8365mb-set-clear-pvid-for-family-D.patch
 @@ -0,0 +1,181 @@
-+From ef89781c2ac5fda896b39f0189ee3c4ccd27dab3 Mon Sep 17 00:00:00 2001
++From 7046d6b672534baaaabf8c8d81dd664ff8bd6aad Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Fri, 24 Jul 2026 12:00:00 +0200
-+Subject: [PATCH 6/8] net: dsa: realtek: rtl8365mb: set/clear pvid for family D
++Subject: [PATCH 6/7] net: dsa: realtek: rtl8365mb: set/clear pvid for family D
 +
 +The RTL8367S-VB (family D) has no working VLAN member-config (MC)
 +table in hardware. rtl8365mb_vlan_port_get_pvid() was already fixed
@@ -584,7 +556,7 @@ index 00000000000000..74e1c7459d3d6e
 +
 +--- a/drivers/net/dsa/realtek/rtl8365mb_vlan.c
 ++++ b/drivers/net/dsa/realtek/rtl8365mb_vlan.c
-+@@ -788,6 +788,56 @@ rtl8365mb_vlan_port_set_framefilter(stru
++@@ -781,6 +781,56 @@ rtl8365mb_vlan_port_set_framefilter(stru
 + }
 + 
 + /*
@@ -641,7 +613,7 @@ index 00000000000000..74e1c7459d3d6e
 +  * rtl8365mb_vlan_pvid_port_set() - Configure a port's PVID and associated
 +  * VLANMC entry
 +  * @ds: dsa switch instance
-+@@ -816,6 +866,13 @@ int rtl8365mb_vlan_pvid_port_set(struct
++@@ -809,6 +859,13 @@ int rtl8365mb_vlan_pvid_port_set(struct
 + 
 + 	lockdep_assert_held(&priv->vlan_lock);
 + 
@@ -655,7 +627,7 @@ index 00000000000000..74e1c7459d3d6e
 + 	/* Read the old PVID exclusively to undo in case of error */
 + 	ret = rtl8365mb_vlan_get_pvid_mc(priv, port, &prev_vlanmc_idx,
 + 					 &prev_vlanmc);
-+@@ -896,6 +953,74 @@ undo_vlan_mc_port_set:
++@@ -889,6 +946,74 @@ undo_vlan_mc_port_set:
 + }
 + 
 + /*
@@ -730,7 +702,7 @@ index 00000000000000..74e1c7459d3d6e
 +  * rtl8365mb_vlan_pvid_port_clear() - Remove a port's PVID configuration
 +  * @ds: dsa switch instance
 +  * @port: port index
-+@@ -918,6 +1043,9 @@ int rtl8365mb_vlan_pvid_port_clear(struc
++@@ -911,6 +1036,9 @@ int rtl8365mb_vlan_pvid_port_clear(struc
 + 
 + 	lockdep_assert_held(&priv->vlan_lock);
 + 
@@ -742,15 +714,14 @@ index 00000000000000..74e1c7459d3d6e
 + 	if (ret) {
 diff --git a/target/linux/generic/pending-6.12/930-7-net-dsa-realtek-rtl8365mb-add-family-D-SDS13-PCS-support.patch b/target/linux/generic/pending-6.12/930-7-net-dsa-realtek-rtl8365mb-add-family-D-SDS13-PCS-support.patch
 new file mode 100644
-index 00000000000000..9b4cbd06f74752
+index 00000000000000..ff38bdba0e22b2
 --- /dev/null
 +++ b/target/linux/generic/pending-6.12/930-7-net-dsa-realtek-rtl8365mb-add-family-D-SDS13-PCS-support.patch
-@@ -0,0 +1,351 @@
-+From 7d51259c3e121b99620a1c53dfbbb2362c53210c Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,359 @@
++From 21dd0134ba60eeefc48270f6d0d18f25eaf119ff Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Wed, 2 Sep 2026 23:37:31 +0200
-+Subject: [PATCH 7/8] net: dsa: realtek: rtl8365mb: add family D SDS13 PCS
-+ support
++Subject: [PATCH 7/7] net: dsa: realtek: rtl8365mb: add family D SDS13 PCS support
 +
 +Extend the existing RTL8367S SGMII/HSGMII PCS implementation in this
 +driver for family D switches, whose CPU SerDes is reached through the
@@ -766,8 +737,8 @@ index 00000000000000..9b4cbd06f74752
 +Signed-off-by: Fabiano Tassotti <fabianotassotti@gmail.com>
 +Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +---
-+ drivers/net/dsa/realtek/rtl8365mb_main.c | 178 ++++++++++++++++++-----
-+ 1 file changed, 142 insertions(+), 36 deletions(-)
++ drivers/net/dsa/realtek/rtl8365mb_main.c | 185 ++++++++++++++++++-----
++ 1 file changed, 149 insertions(+), 36 deletions(-)
 +
 +--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
 ++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
@@ -930,33 +901,43 @@ index 00000000000000..9b4cbd06f74752
 + 	/* Hold the embedded DW8051 microcontroller in reset and keep it
 + 	 * disabled. The vendor driver loads firmware into it to manage the
 + 	 * SerDes link, but the firmware only duplicates work that phylink
-+@@ -1436,34 +1497,56 @@ static int rtl8365mb_pcs_config(struct p
++@@ -1434,36 +1495,65 @@ static int rtl8365mb_pcs_config(struct p
++ 	if (ret)
++ 		return ret;
 + 
+++	/* Family D muxes the SerDes to MAC6 before tuning */
+++	if (is_d) {
+++		ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG,
+++					 RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0,
+++					 RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0);
+++		if (ret)
+++			return ret;
+++	}
+++
 + 	/* Tune the SerDes with vendor-prescribed parameters */
 + 	for (i = 0; i < sds_jam_size; i++) {
 +-		ret = rtl8365mb_sds_write(priv, sds_jam[i].reg,
 +-					  sds_jam[i].val);
 ++		ret = rtl8365mb_sds_write(priv, sds_index,
 ++					  sds_jam[i].reg, sds_jam[i].val);
-++		if (ret)
-++			return ret;
-++	}
-++
++ 		if (ret)
++ 			return ret;
++ 	}
++ 
++-	/* Mux the SerDes to MAC8 in the requested mode */
 ++	/* Family-specific post-tuning configuration */
 ++	if (is_d) {
 ++		ret = regmap_update_bits(priv->map, RTL8365MB_D_FIBER_CFG2_REG,
 ++					 RTL8365MB_D_FIBER_CFG2_RX_DISABLE_MASK,
 ++					 RTL8365MB_D_FIBER_CFG2_RX_DISABLE_SDS0);
-+ 		if (ret)
-+ 			return ret;
+++		if (ret)
+++			return ret;
 ++
 ++		misc_mask = RTL8365MB_D_SDS_MISC_PA33PC_EN |
 ++			    RTL8365MB_D_SDS_MISC_PA12PC_EN |
-++			    RTL8365MB_D_SDS_MISC_MODE_MASK |
-++			    RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0;
+++			    RTL8365MB_D_SDS_MISC_MODE_MASK;
 ++		misc_val  = RTL8365MB_D_SDS_MISC_PA33PC_EN |
-++			    RTL8365MB_D_SDS_MISC_PA12PC_EN |
-++			    RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0 | sds_mode;
+++			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode;
 ++	} else {
 ++		/* Mux the SerDes to MAC8 in the requested mode */
 ++		misc_mask = RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK |
@@ -964,9 +945,8 @@ index 00000000000000..9b4cbd06f74752
 ++		misc_val  = (sds_mode == RTL8365MB_EXT_PORT_MODE_SGMII) ?
 ++			    RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK :
 ++			    RTL8365MB_SDS_MISC_MAC8_SEL_HSGMII_MASK;
-+ 	}
-+ 
-+-	/* Mux the SerDes to MAC8 in the requested mode */
+++	}
+++
 + 	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG,
 +-				 RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK |
 +-					 RTL8365MB_SDS_MISC_MAC8_SEL_HSGMII_MASK,
@@ -1003,7 +983,7 @@ index 00000000000000..9b4cbd06f74752
 + 				  RTL8365MB_SDS_RESET_DEASSERT);
 + 	if (ret)
 + 		return ret;
-+@@ -1473,12 +1556,14 @@ static int rtl8365mb_pcs_config(struct p
++@@ -1473,12 +1563,14 @@ static int rtl8365mb_pcs_config(struct p
 + 	 * This flushes the FIFOs and ensures a clean state for the link,
 + 	 * preventing silent drops and CRC errors.
 + 	 */
@@ -1020,7 +1000,7 @@ index 00000000000000..9b4cbd06f74752
 + 				  RTL8365MB_SDS_BMCR_DPRST_PHASE2);
 + 	if (ret)
 + 		return ret;
-+@@ -1486,14 +1571,16 @@ static int rtl8365mb_pcs_config(struct p
++@@ -1486,14 +1578,16 @@ static int rtl8365mb_pcs_config(struct p
 + 	/* Keep SGMII in-band autonegotiation disabled: the link parameters are
 + 	 * forced from rtl8365mb_pcs_link_up() instead.
 + 	 */
@@ -1039,7 +1019,7 @@ index 00000000000000..9b4cbd06f74752
 + }
 + 
 + static bool rtl8365mb_interface_is_serdes(phy_interface_t interface)
-+@@ -1517,6 +1604,7 @@ static void rtl8365mb_pcs_get_state(stru
++@@ -1517,6 +1611,7 @@ static void rtl8365mb_pcs_get_state(stru
 + {
 + 	struct rtl8365mb *mb = pcs_to_rtl8365mb(pcs);
 + 	struct realtek_priv *priv = mb->priv;
@@ -1047,7 +1027,7 @@ index 00000000000000..9b4cbd06f74752
 + 	u16 status;
 + 	u32 val;
 + 	int ret;
-+@@ -1528,7 +1616,11 @@ static void rtl8365mb_pcs_get_state(stru
++@@ -1528,7 +1623,11 @@ static void rtl8365mb_pcs_get_state(stru
 + 	 * rtl8365mb_pcs_config()), so the link status register can be read
 + 	 * directly through the SDS_INDACS window without racing the auto-poll.
 + 	 */
@@ -1060,7 +1040,7 @@ index 00000000000000..9b4cbd06f74752
 + 	if (ret) {
 + 		state->link = false;
 + 		return;
-+@@ -1539,6 +1631,13 @@ static void rtl8365mb_pcs_get_state(stru
++@@ -1539,6 +1638,13 @@ static void rtl8365mb_pcs_get_state(stru
 + 	if (!state->link)
 + 		return;
 + 
@@ -1074,7 +1054,7 @@ index 00000000000000..9b4cbd06f74752
 + 	/* The speed and duplex are forced; read them back from the values
 + 	 * programmed into the SerDes MISC register.
 + 	 */
-+@@ -1580,6 +1679,12 @@ static void rtl8365mb_pcs_link_up(struct
++@@ -1580,6 +1686,12 @@ static void rtl8365mb_pcs_link_up(struct
 + 	u32 r_speed;
 + 	int ret;
 + 
@@ -1087,7 +1067,7 @@ index 00000000000000..9b4cbd06f74752
 + 	/* The speed field has no value for 2.5 Gbps: the rate is determined by
 + 	 * the HSGMII SerDes configuration, and the vendor driver programs the
 + 	 * 1 Gbps value here.
-+@@ -1896,7 +2001,8 @@ static void rtl8365mb_phylink_mac_link_u
++@@ -1896,7 +2008,8 @@ static void rtl8365mb_phylink_mac_link_u
 + 		 * rtl8365mb_pcs_link_up() because pcs_link_up() carries no
 + 		 * pause information.
 + 		 */
@@ -1097,271 +1077,16 @@ index 00000000000000..9b4cbd06f74752
 + 			u32 val = 0;
 + 
 + 			if (tx_pause)
-diff --git a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
-new file mode 100644
-index 00000000000000..7b040968dad5d5
---- /dev/null
-+++ b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
-@@ -0,0 +1,249 @@
-+From 580088c3c906b0da724d5fd03d879d6110a7be37 Mon Sep 17 00:00:00 2001
-+From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
-+Date: Sun, 6 Sep 2026 17:28:31 +0200
-+Subject: [PATCH 8/8] net: dsa: realtek: rtl8365mb: re-latch the family D
-+ SerDes
-+
-+With the previous patch the trunk on a TP-Link Archer AX55 v1 (IPQ5018 +
-+RTL8367S-VB) reports 2.5Gbps/Full on both sides but moves no frames: the
-+CPU MAC transmits, s00_p06_ifInOctets stays at zero and so does
-+mmc_rx_framecount_gb, with no CRC, alignment or FIFO errors.
-+
-+The receiver latches on the DISABLE -> HSGMII edge in SDS_MISC rather
-+than on the value, and it will not latch until the MAC at the other end
-+of the trunk has brought its own half of the link up. On this board the
-+two are far apart:
-+
-+  5.27  rtl8365mb: configuring for fixed/2500base-x   <- pcs_config()
-+  7.72  ipq5018-gmac-dwmac eth0: configuring for fixed/2500base-x
-+  8.02  ipq5018-gmac-dwmac eth0: Link is Up - 2.5Gbps/Full
-+  8.56  SerDes latches
-+
-+pcs_config() runs 2.7 s before the SoC MAC even starts configuring, so
-+driving the edge from there cannot work, whatever the sequence. Neither
-+does pcs_link_up(), which fires about a millisecond before phylink
-+reports the switch-side link and is still 2.5 s early. Instrumented,
-+SDS 0x3D reads 0x0100 in both cases.
-+
-+Doing the same writes from a workqueue does work, and the timing says why:
-+with a 2000 ms retry interval it took 3 attempts, with 200 ms it took 7,
-+with 50 ms it took 9 - but the successful attempt always landed 100-500 ms
-+after dwmac's "Link is Up", never before it. A single attempt scheduled
-+for just after that point latches first try, three boots in a row.
-+
-+So retry until the far end shows up. The interval and cap are generous
-+because the driver has no view of the other MAC - it is on the SoC side
-+of the link, behind a different driver - and the delay before dwmac comes
-+up is a property of the boot, not of this chip. Keying off that link
-+directly would be better than polling, but there is no path for it from
-+here.
-+
-+The work is cancelled in teardown(), and again from mac_link_up() before
-+the retry budget is reset, since an attempt parks the mode for 20 ms and
-+a link that flaps would otherwise re-arm the sequence indefinitely.
-+
-+Co-developed-by: Oleg Gavrilov <gabonpivovich@gmail.com>
-+Signed-off-by: Oleg Gavrilov <gabonpivovich@gmail.com>
-+Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
-+---
-+ drivers/net/dsa/realtek/rtl8365mb_main.c | 133 ++++++++++++++++++++++-
-+ 1 file changed, 130 insertions(+), 3 deletions(-)
-+
-+--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
-++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
-+@@ -284,6 +284,14 @@
-+ #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
-+ #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
-+ 
-++
-++/* SerDes status register, reached through the SDS_INDACS window */
-++#define RTL8365MB_D_SDS_RELATCH_TRIES			15
-++#define RTL8365MB_D_SDS_RELATCH_INTERVAL_MS		1000
-++
-++#define RTL8365MB_D_SDS_REG_STATUS			0x3D
-++#define   RTL8365MB_D_SDS_STATUS_LINK			0x0010
-++
-+ /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
-+  * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
-+  * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
-+@@ -929,6 +937,8 @@ struct rtl8365mb {
-+ 	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
-+ 	struct phylink_pcs pcs;
-+ 	bool sds_supported;
-++	struct delayed_work sds_relatch;
-++	unsigned int sds_relatch_tries;
-+ };
-+ 
-+ #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
-+@@ -1532,7 +1542,30 @@ static int rtl8365mb_pcs_config(struct p
-+ 	if (ret)
-+ 		return ret;
-+ 
-+-	if (!is_d) {
-++	/* The receiver latches on the DISABLE -> HSGMII edge rather than on
-++	 * the value, so park the mode field first: regmap_update_bits() is a
-++	 * no-op when the register already holds the target value.
-++	 *
-++	 * These are full writes rather than update_bits: misc_val carries
-++	 * every field of SDS_MISC that matters here (the PA enables,
-++	 * MAC6_SEL_SDS0 and the mode), and comes out as 0x0E12 - the same
-++	 * value the stock firmware holds with the trunk up.
-++	 */
-++	if (is_d) {
-++		u32 park = (misc_val & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
-++			   RTL8365MB_D_PORT_SDS_MODE_DISABLE;
-++
-++		ret = regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, park);
-++		if (ret)
-++			return ret;
-++
-++		usleep_range(20000, 25000);
-++
-++		ret = regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, misc_val);
-++		if (ret)
-++			return ret;
-++
-++	} else {
-+ 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
-+ 		ret = regmap_update_bits(priv->map,
-+ 					 RTL8365MB_DIGITAL_INTERFACE_SELECT_REG(id),
-+@@ -1579,8 +1612,26 @@ static int rtl8365mb_pcs_config(struct p
-+ 	val &= ~RTL8365MB_SDS_NWAY_EN_MASK;
-+ 	val |= RTL8365MB_SDS_NWAY_RESTART_MASK;
-+ 
-+-	return rtl8365mb_sds_write(priv, sds_index,
-+-				   RTL8365MB_SDS_REG_NWAY, val);
-++	ret = rtl8365mb_sds_write(priv, sds_index,
-++				  RTL8365MB_SDS_REG_NWAY, val);
-++	if (ret)
-++		return ret;
-++
-++	/* Last: the receiver latches on the DISABLE -> HSGMII edge, and the
-++	 * SerDes and data-path resets above would wipe it if this ran any
-++	 * earlier.
-++	 */
-++	if (is_d) {
-++		mb->sds_relatch_tries = 0;
-++		/* The far end (ipq5018-gmac-dwmac) only brings its side up
-++		 * around 8 s into boot, and the receiver will not latch
-++		 * before that. One attempt, timed for just after.
-++		 */
-++		schedule_delayed_work(&mb->sds_relatch,
-++				      msecs_to_jiffies(RTL8365MB_D_SDS_RELATCH_INTERVAL_MS));
-++	}
-++
-++	return 0;
-+ }
-+ 
-+ static bool rtl8365mb_interface_is_serdes(phy_interface_t interface)
-+@@ -1681,6 +1732,10 @@ static void rtl8365mb_pcs_link_up(struct
-+ 
-+ 	/* Family D forces the external MAC ability from mac_link_up(); its
-+ 	 * SDS_MISC fields do not share the family C link-force layout.
-++	 *
-++	 * The SerDes re-latch cannot be driven from here either: this runs
-++	 * about a millisecond before phylink reports the link, and the edge
-++	 * does not take that early. Kick off the retry work instead.
-+ 	 */
-+ 	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
-+ 		return;
-+@@ -1990,6 +2045,14 @@ static void rtl8365mb_phylink_mac_link_u
-+ 			return;
-+ 		}
-+ 
-++		/* The work sleeps inside the sequence, so stop an attempt
-++		 * still in flight before re-arming. Only a genuinely new
-++		 * link event resets the budget: re-arming mid-attempt would
-++		 * let a flapping link defeat the retry cap entirely, and the
-++		 * attempt itself parks the mode for 20 ms, which can be what
-++		 * makes the link flap in the first place.
-++		 */
-++
-+ 		/* The SerDes has its own pause enables; program them from
-+ 		 * the resolved pause modes, as the vendor driver does when
-+ 		 * forcing the link on a SerDes external interface. These
-+@@ -3205,6 +3268,62 @@ static int rtl8365mb_reset_chip(struct r
-+ 					20000, 1e6);
-+ }
-+ 
-++/* The family D receiver latches on a DISABLE -> HSGMII edge in SDS_MISC
-++ * rather than on the value, and not until the MAC at the other end of the
-++ * trunk has brought its own half of the link up. On the boards seen so far
-++ * that happens seconds after pcs_config() has returned, so the edge is
-++ * driven from here and retried until the receiver reports link.
-++ *
-++ * How long the far end takes is a property of the boot rather than of this
-++ * chip, and there is no path from this driver to the other MAC - it sits on
-++ * the SoC side, behind a different driver - hence the poll.
-++ */
-++
-++static void rtl8365mb_sds_relatch_work(struct work_struct *work)
-++{
-++	struct rtl8365mb *mb = container_of(to_delayed_work(work),
-++					    struct rtl8365mb, sds_relatch);
-++	struct realtek_priv *priv = mb->priv;
-++	u32 park, target;
-++	u16 status = 0;
-++
-++	if (regmap_read(priv->map, RTL8365MB_SDS_MISC_REG, &target))
-++		return;
-++
-++	/* pcs_config() has not run yet: nothing to re-latch. */
-++	if ((target & RTL8365MB_D_SDS_MISC_MODE_MASK) ==
-++	    RTL8365MB_D_PORT_SDS_MODE_DISABLE)
-++		goto again;
-++
-++	park = (target & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
-++	       RTL8365MB_D_PORT_SDS_MODE_DISABLE;
-++
-++	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, park);
-++	msleep(20);
-++	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, target);
-++	msleep(200);
-++
-++	if (rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX,
-++			       RTL8365MB_D_SDS_REG_STATUS, &status))
-++		return;
-++
-++	if (status & RTL8365MB_D_SDS_STATUS_LINK) {
-++		dev_dbg(priv->dev, "SerDes latched after %u attempt(s)\n",
-++			mb->sds_relatch_tries + 1);
-++		return;
-++	}
-++
-++again:
-++	if (++mb->sds_relatch_tries >= RTL8365MB_D_SDS_RELATCH_TRIES) {
-++		dev_warn(priv->dev,
-++			 "SerDes did not latch, trunk will stay down\n");
-++		return;
-++	}
-++
-++	schedule_delayed_work(&mb->sds_relatch,
-++			      msecs_to_jiffies(RTL8365MB_D_SDS_RELATCH_INTERVAL_MS));
-++}
-++
-+ static int rtl8365mb_setup(struct dsa_switch *ds)
-+ {
-+ 	struct realtek_priv *priv = ds->priv;
-+@@ -3226,6 +3345,10 @@ static int rtl8365mb_setup(struct dsa_sw
-+ 	 */
-+ 	mb->pcs.poll = true;
-+ 
-++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
-++		INIT_DELAYED_WORK(&mb->sds_relatch,
-++				  rtl8365mb_sds_relatch_work);
-++
-+ 	ret = rtl8365mb_reset_chip(priv);
-+ 	if (ret) {
-+ 		dev_err(priv->dev, "failed to reset chip: %pe\n",
-+@@ -3410,6 +3533,10 @@ out_error:
-+ static void rtl8365mb_teardown(struct dsa_switch *ds)
-+ {
-+ 	struct realtek_priv *priv = ds->priv;
-++	struct rtl8365mb *mb = priv->chip_data;
-++
-++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
-++		cancel_delayed_work_sync(&mb->sds_relatch);
-+ 
-+ 	rtl8365mb_stats_teardown(priv);
-+ 	rtl8365mb_irq_teardown(priv);
 diff --git a/target/linux/generic/pending-6.18/930-1-net-dsa-realtek-rtl8365mb-detect-RTL8367S-VB.patch b/target/linux/generic/pending-6.18/930-1-net-dsa-realtek-rtl8365mb-detect-RTL8367S-VB.patch
 new file mode 100644
-index 00000000000000..7d3570be115073
+index 00000000000000..08c8bab15314ce
 --- /dev/null
 +++ b/target/linux/generic/pending-6.18/930-1-net-dsa-realtek-rtl8365mb-detect-RTL8367S-VB.patch
 @@ -0,0 +1,130 @@
 +From 18cdfcbf83b9455fe8936fae7b0e1365517649a0 Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Sat, 13 Jun 2026 00:19:37 +0200
-+Subject: [PATCH 1/8] net: dsa: realtek: rtl8365mb: detect RTL8367S-VB
++Subject: [PATCH 1/7] net: dsa: realtek: rtl8365mb: detect RTL8367S-VB
 +
 +Detect RTL8367S-VB and set family.
 +
@@ -1490,14 +1215,14 @@ index 00000000000000..7d3570be115073
 + 	u32 val;
 diff --git a/target/linux/generic/pending-6.18/930-2-net-dsa-realtek-rtl8365mb-set-speed-for-family-D.patch b/target/linux/generic/pending-6.18/930-2-net-dsa-realtek-rtl8365mb-set-speed-for-family-D.patch
 new file mode 100644
-index 00000000000000..95fb590d317d11
+index 00000000000000..1b76c9d2d3a249
 --- /dev/null
 +++ b/target/linux/generic/pending-6.18/930-2-net-dsa-realtek-rtl8365mb-set-speed-for-family-D.patch
 @@ -0,0 +1,128 @@
 +From 925eb475db4e09ede63d08312c18d19976b3d4b0 Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Wed, 22 Jul 2026 22:47:26 +0200
-+Subject: [PATCH 2/8] net: dsa: realtek: rtl8365mb: set speed for family D
++Subject: [PATCH 2/7] net: dsa: realtek: rtl8365mb: set speed for family D
 +
 +Set speed for family D.
 +
@@ -1624,14 +1349,14 @@ index 00000000000000..95fb590d317d11
 + }
 diff --git a/target/linux/generic/pending-6.18/930-3-net-dsa-realtek-rtl8365mb-get-pvid-for-family-D.patch b/target/linux/generic/pending-6.18/930-3-net-dsa-realtek-rtl8365mb-get-pvid-for-family-D.patch
 new file mode 100644
-index 00000000000000..53392db8fd036a
+index 00000000000000..7476098b7ef25b
 --- /dev/null
 +++ b/target/linux/generic/pending-6.18/930-3-net-dsa-realtek-rtl8365mb-get-pvid-for-family-D.patch
 @@ -0,0 +1,61 @@
 +From 4345ad12df40be422295b5641ca310bcbd012b47 Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Fri, 24 Jul 2026 03:09:09 +0200
-+Subject: [PATCH 3/8] net: dsa: realtek: rtl8365mb: get pvid for family D
++Subject: [PATCH 3/7] net: dsa: realtek: rtl8365mb: get pvid for family D
 +
 +Get pvid for family D chips.
 +
@@ -1689,16 +1414,17 @@ index 00000000000000..53392db8fd036a
 + 	return 0;
 + }
 + 
-diff --git a/target/linux/generic/pending-6.18/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-family-D.patch b/target/linux/generic/pending-6.18/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-family-D.patch
+diff --git a/target/linux/generic/pending-6.18/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-rtl8367d-family-chips.patch b/target/linux/generic/pending-6.18/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-rtl8367d-family-chips.patch
 new file mode 100644
-index 00000000000000..0726cbf099c28c
+index 00000000000000..d8c4d309a5b805
 --- /dev/null
-+++ b/target/linux/generic/pending-6.18/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-family-D.patch
-@@ -0,0 +1,71 @@
-+From 594b4d7fe124b06d15338b391517ac561065f4c7 Mon Sep 17 00:00:00 2001
++++ b/target/linux/generic/pending-6.18/930-4-net-dsa-realtek-rtl8365mb-set-RGMII-mode-for-rtl8367d-family-chips.patch
+@@ -0,0 +1,72 @@
++From 4ae557ea1115582da0d537a96d7517faba6a5a12 Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Fri, 24 Jul 2026 04:38:53 +0200
-+Subject: [PATCH 4/8] net: dsa: realtek: set RGMII mode for family D
++Subject: [PATCH 4/7] net: dsa: realtek: rtl8365mb: set RGMII mode for rtl8367d
++ family chips
 +
 +Set RGMII mode for rtl8367d family chips
 +
@@ -1766,37 +1492,28 @@ index 00000000000000..0726cbf099c28c
 + 	return 0;
 + }
 + 
-diff --git a/target/linux/generic/pending-6.18/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-family-D.patch b/target/linux/generic/pending-6.18/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-family-D.patch
+diff --git a/target/linux/generic/pending-6.18/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-rtl8367d-family-chips.patch b/target/linux/generic/pending-6.18/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-rtl8367d-family-chips.patch
 new file mode 100644
-index 00000000000000..cb75c34ca32261
+index 00000000000000..fc420ac44cdd7a
 --- /dev/null
-+++ b/target/linux/generic/pending-6.18/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-family-D.patch
-@@ -0,0 +1,91 @@
-+From f7e2813203586442e58847ca05724f7cea6b62e7 Mon Sep 17 00:00:00 2001
++++ b/target/linux/generic/pending-6.18/930-5-net-dsa-realtek-rtl8365mb-set-and-get-vlan-4k-for-rtl8367d-family-chips.patch
+@@ -0,0 +1,66 @@
++From da476b9cb7b2308160cc82b54ea51dbacf0942ef Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Fri, 24 Jul 2026 05:35:45 +0200
-+Subject: [PATCH 5/8] net: dsa: realtek: rtl8365mb: set and get vlan 4k for
-+ family D
++Subject: [PATCH 5/7] net: dsa: realtek: rtl8365mb: set and get vlan 4k for
++ rtl8367d family chips
 +
 +Set and get vlan 4k for rtl8367d family chips
 +
 +Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +---
-+ drivers/net/dsa/realtek/rtl8365mb_vlan.c | 34 +++++++++++++++++++-----
-+ 1 file changed, 28 insertions(+), 6 deletions(-)
++ drivers/net/dsa/realtek/rtl8365mb_vlan.c | 23 +++++++++++++++++++----
++ 1 file changed, 19 insertions(+), 4 deletions(-)
 +
 +--- a/drivers/net/dsa/realtek/rtl8365mb_vlan.c
 ++++ b/drivers/net/dsa/realtek/rtl8365mb_vlan.c
-+@@ -66,6 +66,8 @@
-+ #define RTL8365MB_CVLAN_ENTRY_D1_METERIDX_MASK		GENMASK(13, 9)
-+ #define   RTL8365MB_CVLAN_METERIDX_LO_MASK		GENMASK(4, 0)
-+ #define RTL8365MB_CVLAN_ENTRY_D1_IVL_SVL_MASK		GENMASK(14, 14)
-++#define RTL8365MB_D_CVLAN_ENTRY_D1_SVLAN_CHECK_MASK	GENMASK(2, 2)
-++#define RTL8365MB_D_CVLAN_ENTRY_D1_IVL_EN_MASK		GENMASK(3, 3)
-+ /* extends RTL8365MB_CVLAN_ENTRY_D0_MBR_MASK */
-+ #define RTL8365MB_CVLAN_ENTRY_D2_MBR_EXT_MASK		GENMASK(2, 0)
-+ #define   RTL8365MB_CVLAN_MBR_HI_MASK			GENMASK(10, 8)
-+@@ -97,6 +99,8 @@
++@@ -97,6 +97,8 @@
 + #define RTL8365MB_METERMAX	63
 + #define RTL8365MB_VLAN_MCMAX	31
 + 
@@ -1805,7 +1522,7 @@ index 00000000000000..cb75c34ca32261
 + /* RTL8367S supports 4k vlans (vid<=4095) and 32 enhanced vlans
 +  * for VIDs up to 8191
 +  */
-+@@ -215,7 +219,11 @@ static int rtl8365mb_vlan_4k_read(struct
++@@ -215,7 +217,11 @@ static int rtl8365mb_vlan_4k_read(struct
 + 	val = FIELD_GET(RTL8365MB_CVLAN_ENTRY_D2_UNTAG_EXT_MASK, data[2]);
 + 	vlan4k->untag |= FIELD_PREP(RTL8365MB_CVLAN_UNTAG_HI_MASK, val);
 + 
@@ -1818,31 +1535,15 @@ index 00000000000000..cb75c34ca32261
 + 	vlan4k->priority_en =
 + 		FIELD_GET(RTL8365MB_CVLAN_ENTRY_D1_VBPEN_MASK, data[1]);
 + 	vlan4k->priority =
-+@@ -230,8 +238,12 @@ static int rtl8365mb_vlan_4k_read(struct
-+ 	val = FIELD_PREP(RTL8365MB_CVLAN_METERIDX_HI_MASK, val);
-+ 	vlan4k->meteridx |= val;
-+ 
-+-	vlan4k->ivl_en =
-+-		FIELD_GET(RTL8365MB_CVLAN_ENTRY_D1_IVL_SVL_MASK, data[1]);
-++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
-++		vlan4k->ivl_en =
-++			FIELD_GET(RTL8365MB_D_CVLAN_ENTRY_D1_IVL_EN_MASK, data[1]);
-++	else
-++		vlan4k->ivl_en =
-++			FIELD_GET(RTL8365MB_CVLAN_ENTRY_D1_IVL_SVL_MASK, data[1]);
-+ 
-+ 	return 0;
-+ }
-+@@ -250,7 +262,15 @@ static int rtl8365mb_vlan_4k_write(struc
++@@ -250,7 +256,14 @@ static int rtl8365mb_vlan_4k_write(struc
 + 	val = FIELD_GET(RTL8365MB_CVLAN_UNTAG_LO_MASK, vlan4k->untag);
 + 	data[0] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D0_UNTAG_MASK, val);
 + 
 +-	data[1] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D1_FID_MASK, vlan4k->fid);
 ++	/* FID handling differs between families */
 ++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
-++		val = (vlan4k->fid & RTL8365MB_D_FID_MAX) |
-++		      FIELD_PREP(RTL8365MB_D_CVLAN_ENTRY_D1_IVL_EN_MASK, 1) |
-++		      FIELD_PREP(RTL8365MB_D_CVLAN_ENTRY_D1_SVLAN_CHECK_MASK, 1);
+++		/* ivl_svl - BIT(3), svlan_check_ivl_svl - BIT(2) */
+++		val = (vlan4k->fid & RTL8365MB_D_FID_MAX) | BIT(3) | BIT(2);
 ++	} else {
 ++		val = vlan4k->fid;
 ++	}
@@ -1850,7 +1551,7 @@ index 00000000000000..cb75c34ca32261
 + 	data[1] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D1_VBPEN_MASK,
 + 			      vlan4k->priority_en);
 + 	data[1] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D1_VBPRI_MASK,
-+@@ -263,8 +283,10 @@ static int rtl8365mb_vlan_4k_write(struc
++@@ -263,8 +276,10 @@ static int rtl8365mb_vlan_4k_write(struc
 + 	val = FIELD_GET(RTL8365MB_CVLAN_METERIDX_LO_MASK, val);
 + 	data[1] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D1_METERIDX_MASK, val);
 + 
@@ -1865,14 +1566,14 @@ index 00000000000000..cb75c34ca32261
 + 	data[2] |= FIELD_PREP(RTL8365MB_CVLAN_ENTRY_D2_MBR_EXT_MASK, val);
 diff --git a/target/linux/generic/pending-6.18/930-6-net-dsa-realtek-rtl8365mb-set-clear-pvid-for-family-D.patch b/target/linux/generic/pending-6.18/930-6-net-dsa-realtek-rtl8365mb-set-clear-pvid-for-family-D.patch
 new file mode 100644
-index 00000000000000..74e1c7459d3d6e
+index 00000000000000..9a3e14694f0a8f
 --- /dev/null
 +++ b/target/linux/generic/pending-6.18/930-6-net-dsa-realtek-rtl8365mb-set-clear-pvid-for-family-D.patch
 @@ -0,0 +1,181 @@
-+From ef89781c2ac5fda896b39f0189ee3c4ccd27dab3 Mon Sep 17 00:00:00 2001
++From 7046d6b672534baaaabf8c8d81dd664ff8bd6aad Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Fri, 24 Jul 2026 12:00:00 +0200
-+Subject: [PATCH 6/8] net: dsa: realtek: rtl8365mb: set/clear pvid for family D
++Subject: [PATCH 6/7] net: dsa: realtek: rtl8365mb: set/clear pvid for family D
 +
 +The RTL8367S-VB (family D) has no working VLAN member-config (MC)
 +table in hardware. rtl8365mb_vlan_port_get_pvid() was already fixed
@@ -1894,7 +1595,7 @@ index 00000000000000..74e1c7459d3d6e
 +
 +--- a/drivers/net/dsa/realtek/rtl8365mb_vlan.c
 ++++ b/drivers/net/dsa/realtek/rtl8365mb_vlan.c
-+@@ -788,6 +788,56 @@ rtl8365mb_vlan_port_set_framefilter(stru
++@@ -781,6 +781,56 @@ rtl8365mb_vlan_port_set_framefilter(stru
 + }
 + 
 + /*
@@ -1951,7 +1652,7 @@ index 00000000000000..74e1c7459d3d6e
 +  * rtl8365mb_vlan_pvid_port_set() - Configure a port's PVID and associated
 +  * VLANMC entry
 +  * @ds: dsa switch instance
-+@@ -816,6 +866,13 @@ int rtl8365mb_vlan_pvid_port_set(struct
++@@ -809,6 +859,13 @@ int rtl8365mb_vlan_pvid_port_set(struct
 + 
 + 	lockdep_assert_held(&priv->vlan_lock);
 + 
@@ -1965,7 +1666,7 @@ index 00000000000000..74e1c7459d3d6e
 + 	/* Read the old PVID exclusively to undo in case of error */
 + 	ret = rtl8365mb_vlan_get_pvid_mc(priv, port, &prev_vlanmc_idx,
 + 					 &prev_vlanmc);
-+@@ -896,6 +953,74 @@ undo_vlan_mc_port_set:
++@@ -889,6 +946,74 @@ undo_vlan_mc_port_set:
 + }
 + 
 + /*
@@ -2040,7 +1741,7 @@ index 00000000000000..74e1c7459d3d6e
 +  * rtl8365mb_vlan_pvid_port_clear() - Remove a port's PVID configuration
 +  * @ds: dsa switch instance
 +  * @port: port index
-+@@ -918,6 +1043,9 @@ int rtl8365mb_vlan_pvid_port_clear(struc
++@@ -911,6 +1036,9 @@ int rtl8365mb_vlan_pvid_port_clear(struc
 + 
 + 	lockdep_assert_held(&priv->vlan_lock);
 + 
@@ -2052,15 +1753,14 @@ index 00000000000000..74e1c7459d3d6e
 + 	if (ret) {
 diff --git a/target/linux/generic/pending-6.18/930-7-net-dsa-realtek-rtl8365mb-add-family-D-SDS13-PCS-support.patch b/target/linux/generic/pending-6.18/930-7-net-dsa-realtek-rtl8365mb-add-family-D-SDS13-PCS-support.patch
 new file mode 100644
-index 00000000000000..215686c63ef355
+index 00000000000000..19dd4f70b45c10
 --- /dev/null
 +++ b/target/linux/generic/pending-6.18/930-7-net-dsa-realtek-rtl8365mb-add-family-D-SDS13-PCS-support.patch
-@@ -0,0 +1,351 @@
-+From 7d51259c3e121b99620a1c53dfbbb2362c53210c Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,359 @@
++From 21dd0134ba60eeefc48270f6d0d18f25eaf119ff Mon Sep 17 00:00:00 2001
 +From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +Date: Wed, 2 Sep 2026 23:37:31 +0200
-+Subject: [PATCH 7/8] net: dsa: realtek: rtl8365mb: add family D SDS13 PCS
-+ support
++Subject: [PATCH 7/7] net: dsa: realtek: rtl8365mb: add family D SDS13 PCS support
 +
 +Extend the existing RTL8367S SGMII/HSGMII PCS implementation in this
 +driver for family D switches, whose CPU SerDes is reached through the
@@ -2076,8 +1776,8 @@ index 00000000000000..215686c63ef355
 +Signed-off-by: Fabiano Tassotti <fabianotassotti@gmail.com>
 +Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
 +---
-+ drivers/net/dsa/realtek/rtl8365mb_main.c | 178 ++++++++++++++++++-----
-+ 1 file changed, 142 insertions(+), 36 deletions(-)
++ drivers/net/dsa/realtek/rtl8365mb_main.c | 185 ++++++++++++++++++-----
++ 1 file changed, 149 insertions(+), 36 deletions(-)
 +
 +--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
 ++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
@@ -2240,33 +1940,43 @@ index 00000000000000..215686c63ef355
 + 	/* Hold the embedded DW8051 microcontroller in reset and keep it
 + 	 * disabled. The vendor driver loads firmware into it to manage the
 + 	 * SerDes link, but the firmware only duplicates work that phylink
-+@@ -1436,34 +1497,56 @@ static int rtl8365mb_pcs_config(struct p
++@@ -1434,36 +1495,65 @@ static int rtl8365mb_pcs_config(struct p
++ 	if (ret)
++ 		return ret;
 + 
+++	/* Family D muxes the SerDes to MAC6 before tuning */
+++	if (is_d) {
+++		ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG,
+++					 RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0,
+++					 RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0);
+++		if (ret)
+++			return ret;
+++	}
+++
 + 	/* Tune the SerDes with vendor-prescribed parameters */
 + 	for (i = 0; i < sds_jam_size; i++) {
 +-		ret = rtl8365mb_sds_write(priv, sds_jam[i].reg,
 +-					  sds_jam[i].val);
 ++		ret = rtl8365mb_sds_write(priv, sds_index,
 ++					  sds_jam[i].reg, sds_jam[i].val);
-++		if (ret)
-++			return ret;
-++	}
-++
++ 		if (ret)
++ 			return ret;
++ 	}
++ 
++-	/* Mux the SerDes to MAC8 in the requested mode */
 ++	/* Family-specific post-tuning configuration */
 ++	if (is_d) {
 ++		ret = regmap_update_bits(priv->map, RTL8365MB_D_FIBER_CFG2_REG,
 ++					 RTL8365MB_D_FIBER_CFG2_RX_DISABLE_MASK,
 ++					 RTL8365MB_D_FIBER_CFG2_RX_DISABLE_SDS0);
-+ 		if (ret)
-+ 			return ret;
+++		if (ret)
+++			return ret;
 ++
 ++		misc_mask = RTL8365MB_D_SDS_MISC_PA33PC_EN |
 ++			    RTL8365MB_D_SDS_MISC_PA12PC_EN |
-++			    RTL8365MB_D_SDS_MISC_MODE_MASK |
-++			    RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0;
+++			    RTL8365MB_D_SDS_MISC_MODE_MASK;
 ++		misc_val  = RTL8365MB_D_SDS_MISC_PA33PC_EN |
-++			    RTL8365MB_D_SDS_MISC_PA12PC_EN |
-++			    RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0 | sds_mode;
+++			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode;
 ++	} else {
 ++		/* Mux the SerDes to MAC8 in the requested mode */
 ++		misc_mask = RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK |
@@ -2274,9 +1984,8 @@ index 00000000000000..215686c63ef355
 ++		misc_val  = (sds_mode == RTL8365MB_EXT_PORT_MODE_SGMII) ?
 ++			    RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK :
 ++			    RTL8365MB_SDS_MISC_MAC8_SEL_HSGMII_MASK;
-+ 	}
-+ 
-+-	/* Mux the SerDes to MAC8 in the requested mode */
+++	}
+++
 + 	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG,
 +-				 RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK |
 +-					 RTL8365MB_SDS_MISC_MAC8_SEL_HSGMII_MASK,
@@ -2313,7 +2022,7 @@ index 00000000000000..215686c63ef355
 + 				  RTL8365MB_SDS_RESET_DEASSERT);
 + 	if (ret)
 + 		return ret;
-+@@ -1473,12 +1556,14 @@ static int rtl8365mb_pcs_config(struct p
++@@ -1473,12 +1563,14 @@ static int rtl8365mb_pcs_config(struct p
 + 	 * This flushes the FIFOs and ensures a clean state for the link,
 + 	 * preventing silent drops and CRC errors.
 + 	 */
@@ -2330,7 +2039,7 @@ index 00000000000000..215686c63ef355
 + 				  RTL8365MB_SDS_BMCR_DPRST_PHASE2);
 + 	if (ret)
 + 		return ret;
-+@@ -1486,14 +1571,16 @@ static int rtl8365mb_pcs_config(struct p
++@@ -1486,14 +1578,16 @@ static int rtl8365mb_pcs_config(struct p
 + 	/* Keep SGMII in-band autonegotiation disabled: the link parameters are
 + 	 * forced from rtl8365mb_pcs_link_up() instead.
 + 	 */
@@ -2349,7 +2058,7 @@ index 00000000000000..215686c63ef355
 + }
 + 
 + static bool rtl8365mb_interface_is_serdes(phy_interface_t interface)
-+@@ -1518,6 +1605,7 @@ static void rtl8365mb_pcs_get_state(stru
++@@ -1518,6 +1612,7 @@ static void rtl8365mb_pcs_get_state(stru
 + {
 + 	struct rtl8365mb *mb = pcs_to_rtl8365mb(pcs);
 + 	struct realtek_priv *priv = mb->priv;
@@ -2357,7 +2066,7 @@ index 00000000000000..215686c63ef355
 + 	u16 status;
 + 	u32 val;
 + 	int ret;
-+@@ -1529,7 +1617,11 @@ static void rtl8365mb_pcs_get_state(stru
++@@ -1529,7 +1624,11 @@ static void rtl8365mb_pcs_get_state(stru
 + 	 * rtl8365mb_pcs_config()), so the link status register can be read
 + 	 * directly through the SDS_INDACS window without racing the auto-poll.
 + 	 */
@@ -2370,7 +2079,7 @@ index 00000000000000..215686c63ef355
 + 	if (ret) {
 + 		state->link = false;
 + 		return;
-+@@ -1540,6 +1632,13 @@ static void rtl8365mb_pcs_get_state(stru
++@@ -1540,6 +1639,13 @@ static void rtl8365mb_pcs_get_state(stru
 + 	if (!state->link)
 + 		return;
 + 
@@ -2384,7 +2093,7 @@ index 00000000000000..215686c63ef355
 + 	/* The speed and duplex are forced; read them back from the values
 + 	 * programmed into the SerDes MISC register.
 + 	 */
-+@@ -1581,6 +1680,12 @@ static void rtl8365mb_pcs_link_up(struct
++@@ -1581,6 +1687,12 @@ static void rtl8365mb_pcs_link_up(struct
 + 	u32 r_speed;
 + 	int ret;
 + 
@@ -2397,7 +2106,7 @@ index 00000000000000..215686c63ef355
 + 	/* The speed field has no value for 2.5 Gbps: the rate is determined by
 + 	 * the HSGMII SerDes configuration, and the vendor driver programs the
 + 	 * 1 Gbps value here.
-+@@ -1897,7 +2002,8 @@ static void rtl8365mb_phylink_mac_link_u
++@@ -1897,7 +2009,8 @@ static void rtl8365mb_phylink_mac_link_u
 + 		 * rtl8365mb_pcs_link_up() because pcs_link_up() carries no
 + 		 * pause information.
 + 		 */
@@ -2407,81 +2116,717 @@ index 00000000000000..215686c63ef355
 + 			u32 val = 0;
 + 
 + 			if (tx_pause)
-diff --git a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+
+From 5c354436d29e04dd7b6724fc71b5d2ac510e9158 Mon Sep 17 00:00:00 2001
+From: krics <krics@localhost>
+Date: Thu, 3 Sep 2026 20:48:45 +0300
+Subject: [PATCH 2/6] qualcommax: uniphy: fix 2500base-x channel setup for
+ fixed links
+
+For 2500base-x the channel negotiates on its own even when phylink has
+a fixed link, so UNIPHY_CH_FORCE_MODE has to be cleared rather than set,
+and UNIPHY_AUTONEG_MODE_ATH only applies to in-band negotiation.
+
+With FORCE_MODE set the RTL8367S-VB trunk on the TP-Link Archer AX55 v1
+comes up at 2.5Gbps but carries no traffic; CH_CTRL/MODE_CTRL read
+0x84C/0x821 where the stock firmware has 0x844/0x820. Reverting this
+alone breaks the trunk again.
+
+Taken from Fabiano Tassotti's RTL8367D series (branch fbinerd, commit
+334f21ad3f), adapted to the current file.
+
+Signed-off-by: krics <krics@localhost>
+---
+ .../files/drivers/net/pcs/pcs-qca-uniphy.c       | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/target/linux/qualcommax/files/drivers/net/pcs/pcs-qca-uniphy.c b/target/linux/qualcommax/files/drivers/net/pcs/pcs-qca-uniphy.c
+index 27f6189a330167..5a22e8a8269d17 100644
+--- a/target/linux/qualcommax/files/drivers/net/pcs/pcs-qca-uniphy.c
++++ b/target/linux/qualcommax/files/drivers/net/pcs/pcs-qca-uniphy.c
+@@ -508,7 +508,8 @@ static int qca_uniphy_pcs_config_mode(struct phylink_pcs *pcs,
+ 		misc2_phy_mode = UNIPHY_MISC2_SGMIIPLUS;
+ 		mode_ctrl = UNIPHY_SGPLUS_MODE;
+ 		mode_ctrl |= FIELD_PREP(UNIPHY_CH0_MODE_CTRL_25M, UNIPHY_CH0_MODE_MAC);
+-		mode_ctrl |= UNIPHY_AUTONEG_MODE_ATH;
++		if (neg_mode == PHYLINK_PCS_NEG_INBAND_ENABLED)
++			mode_ctrl |= UNIPHY_AUTONEG_MODE_ATH;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -526,11 +527,20 @@ static int qca_uniphy_pcs_config_mode(struct phylink_pcs *pcs,
+ 
+ 	/* TODO: Fix for IPQ6018 and IPQ8074 */
+ 	if (uniphy->data->uniphy_type == UNIPHY_IPQ5018) {
+-		//set force mode for fixed link
+-		if (neg_mode == PHYLINK_PCS_NEG_OUTBAND && !phylink_expects_phy(pcs->phylink)) {
++		/* SGMII+ negotiates on the channel even when phylink has a
++		 * fixed link, so forcing the mode here keeps the RTL8367S-VB
++		 * trunk from passing traffic.
++		 */
++		if (neg_mode == PHYLINK_PCS_NEG_OUTBAND &&
++		    !phylink_expects_phy(pcs->phylink) &&
++		    interface != PHY_INTERFACE_MODE_2500BASEX) {
+ 			regmap_set_bits(uniphy->regmap,
+ 					UNIPHY_CH_CTRL(upcs->channel),
+ 					UNIPHY_CH_FORCE_MODE);
++		} else if (interface == PHY_INTERFACE_MODE_2500BASEX) {
++			regmap_clear_bits(uniphy->regmap,
++					  UNIPHY_CH_CTRL(upcs->channel),
++					  UNIPHY_CH_FORCE_MODE);
+ 		}
+ 	}
+ 
+
+From 5bd4da8f419519f464b3e510fa670f02ed35e6f3 Mon Sep 17 00:00:00 2001
+From: krics <krics@localhost>
+Date: Thu, 3 Sep 2026 21:19:12 +0300
+Subject: [PATCH 3/6] generic: rtl8365mb: latch the family D SerDes
+
+Adds 930-8 on top of the RTL8367S-VB series: 0x1D12 alongside 0x1D11,
+the DISABLE -> HSGMII transition, SDS1 left disabled, and a delayed
+re-latch that also sets bit 8 of SDS register 2.
+
+Without it the trunk on a TP-Link Archer AX55 v1 comes up at 2.5Gbps
+but carries no frames in either direction.
+
+Signed-off-by: krics <krics@localhost>
+---
+ ...-rtl8365mb-latch-the-family-D-serdes.patch | 145 ++++++++++++++++++
+ ...-rtl8365mb-latch-the-family-D-serdes.patch | 145 ++++++++++++++++++
+ 2 files changed, 290 insertions(+)
+ create mode 100644 target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+ create mode 100644 target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+
+diff --git a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
 new file mode 100644
-index 00000000000000..05b0808e84af4b
+index 00000000000000..39d92306b903b8
 --- /dev/null
-+++ b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
-@@ -0,0 +1,249 @@
-+From 580088c3c906b0da724d5fd03d879d6110a7be37 Mon Sep 17 00:00:00 2001
-+From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
-+Date: Sun, 6 Sep 2026 17:28:31 +0200
-+Subject: [PATCH 8/8] net: dsa: realtek: rtl8365mb: re-latch the family D
-+ SerDes
++++ b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+@@ -0,0 +1,145 @@
++From: krics <krics@localhost>
++Date: Thu, 3 Sep 2026 22:30:00 +0200
++Subject: [PATCH 8/8] net: dsa: realtek: rtl8365mb: latch the family D SerDes
 +
-+With the previous patch the trunk on a TP-Link Archer AX55 v1 (IPQ5018 +
++With 930-1..930-7 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 +
 +RTL8367S-VB) reports 2.5Gbps/Full on both sides but moves no frames: the
 +CPU MAC transmits, s00_p06_ifInOctets stays at zero and so does
-+mmc_rx_framecount_gb, with no CRC, alignment or FIFO errors.
++mmc_rx_framecount_gb, with no CRC, alignment or FIFO errors anywhere.
 +
-+The receiver latches on the DISABLE -> HSGMII edge in SDS_MISC rather
-+than on the value, and it will not latch until the MAC at the other end
-+of the trunk has brought its own half of the link up. On this board the
-+two are far apart:
++Three things are still missing, all from what the stock firmware does in
++dal_rtl8367d_port_macForceLinkExt_set() and sgmiiNway_set():
 +
-+  5.27  rtl8365mb: configuring for fixed/2500base-x   <- pcs_config()
-+  7.72  ipq5018-gmac-dwmac eth0: configuring for fixed/2500base-x
-+  8.02  ipq5018-gmac-dwmac eth0: Link is Up - 2.5Gbps/Full
-+  8.56  SerDes latches
++  - 0x1D12 is never programmed. Stock writes the same value to both
++    0x1D11 and 0x1D12; setting only 0x1D11 leaves the receiver hunting.
 +
-+pcs_config() runs 2.7 s before the SoC MAC even starts configuring, so
-+driving the edge from there cannot work, whatever the sequence. Neither
-+does pcs_link_up(), which fires about a millisecond before phylink
-+reports the switch-side link and is still 2.5 s early. Instrumented,
-+SDS 0x3D reads 0x0100 in both cases.
++  - The receiver latches on a DISABLE -> HSGMII transition rather than
++    on the value, so writing 0x0E12 into a register that already reads
++    0x0E12 does nothing.
 +
-+Doing the same writes from a workqueue does work, and the timing says why:
-+with a 2000 ms retry interval it took 3 attempts, with 200 ms it took 7,
-+with 50 ms it took 9 - but the successful attempt always landed 100-500 ms
-+after dwmac's "Link is Up", never before it. A single attempt scheduled
-+for just after that point latches first try, three boots in a row.
++  - 0x1D78 (SDS1_MISC0) has to stay at 0x001F. The vendor HSGMII branch
++    that programs it is reached only for EXT_PORT1; EXT_PORT0 runs
++    through SDS0.
 +
-+So retry until the far end shows up. The interval and cap are generous
-+because the driver has no view of the other MAC - it is on the SoC side
-+of the link, behind a different driver - and the delay before dwmac comes
-+up is a property of the boot, not of this chip. Keying off that link
-+directly would be better than polling, but there is no path for it from
-+here.
++The transition also has to be repeated once the UNIPHY on the SoC side
++has been up for a while, together with bit 8 of SDS register 2 -
++sgmiiNway_set() clears NWAY_EN and sets that bit, while pcs_config()
++only clears NWAY_EN. Done from pcs_config() the link latches and drops
++again within a second or two; around 25 s into boot it holds, so it runs
++as delayed work. That part is a workaround rather than a fix: driving it
++from a link event would be better, but I could not work out which one.
 +
-+The work is cancelled in teardown(), and again from mac_link_up() before
-+the retry budget is reset, since an attempt parks the mode for 20 ms and
-+a link that flaps would otherwise re-arm the sequence indefinitely.
++Bisected by reverting each piece in turn on a clean tree. Without the
++delayed relatch the trunk carries nothing; the same is true without the
++UNIPHY change that accompanies this (CH_FORCE_MODE cleared for
++2500base-x). Clearing NCTL_EN turned out not to be needed once 0x1D11 is
++programmed instead of 0x1D78.
 +
-+Co-developed-by: Oleg Gavrilov <gabonpivovich@gmail.com>
-+Signed-off-by: Oleg Gavrilov <gabonpivovich@gmail.com>
-+Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
++Signed-off-by: krics <krics@localhost>
 +---
-+ drivers/net/dsa/realtek/rtl8365mb_main.c | 133 ++++++++++++++++++++++-
-+ 1 file changed, 130 insertions(+), 3 deletions(-)
-+
 +--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
 ++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
-+@@ -284,6 +284,14 @@
++@@ -331,6 +331,8 @@
++ #define RTL8365MB_D_SDS_MISC_MODE_SGMII			0x02
++ #define RTL8365MB_D_SDS_MISC_MODE_HSGMII		0x12
++ 
+++#define RTL8365MB_D_SDS_NWAY_LINK_MASK			0x0100
+++
++ /* Embedded DW8051 microcontroller control registers. The microcontroller
++  * can run firmware to manage the SerDes link, but this driver keeps it in
++  * reset and disabled: phylink already performs the link management that
++@@ -929,6 +931,7 @@
++ 	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
++ 	struct phylink_pcs pcs;
++ 	bool sds_supported;
+++	struct delayed_work sds_relatch;
++ };
++ 
++ #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
++@@ -1534,11 +1537,26 @@
++ 			    RTL8365MB_SDS_MISC_MAC8_SEL_HSGMII_MASK;
++ 	}
++ 
++-	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG,
++-				 misc_mask, misc_val);
+++	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG, misc_mask, misc_val);
++ 	if (ret)
++ 		return ret;
++ 
+++	if (is_d) {
+++		/* Stock programs BOTH 0x1D11 and 0x1D12 with the same value,
+++		 * and the receiver latches on a DISABLE -> HSGMII transition
+++		 * rather than on the value. It also leaves SDS1 (0x1D78)
+++		 * disabled: the vendor branch that programs it is EXT_PORT1.
+++		 */
+++		regmap_write(priv->map, RTL8365MB_D_REG_SDS1_MISC0, 0x001f);
+++
+++		regmap_write(priv->map, 0x1d11, 0x021f);
+++		regmap_write(priv->map, 0x1d12, 0x021f);
+++		msleep(20);
+++		regmap_write(priv->map, 0x1d11, 0x0e12);
+++		regmap_write(priv->map, 0x1d12, 0x0e12);
+++		msleep(100);
+++	}
+++
++ 	if (!is_d) {
++ 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
++ 		ret = regmap_update_bits(priv->map,
++@@ -1594,6 +1612,9 @@
++ 	val &= ~RTL8365MB_SDS_NWAY_EN_MASK;
++ 	val |= RTL8365MB_SDS_NWAY_RESTART_MASK;
++ 
+++	if (is_d)
+++		val |= RTL8365MB_D_SDS_NWAY_LINK_MASK; /* bit 8 */
+++
++ 	return rtl8365mb_sds_write(priv, sds_index,
++ 				   RTL8365MB_SDS_REG_NWAY, val);
++ }
++@@ -3231,6 +3252,32 @@
++ 	return 0;
++ }
++ 
+++static void rtl8365mb_sds_relatch_work(struct work_struct *work)
+++{
+++	struct rtl8365mb *mb = container_of(to_delayed_work(work),
+++					    struct rtl8365mb, sds_relatch);
+++	struct realtek_priv *priv = mb->priv;
+++	u16 v = 0;
+++
+++	/* The receiver only latches durably once the UNIPHY on the SoC side
+++	 * has been running for a while: from pcs_config() (~5 s) the link
+++	 * comes up and drops again within a second or two.
+++	 */
+++	regmap_write(priv->map, 0x1d11, 0x021f);
+++	regmap_write(priv->map, 0x1d12, 0x021f);
+++	msleep(1000);
+++	regmap_write(priv->map, 0x1d11, 0x0e12);
+++	regmap_write(priv->map, 0x1d12, 0x0e12);
+++	msleep(2000);
+++
+++	rtl8365mb_sds_write(priv, RTL8365MB_D_SDS_EXT0_INDEX, 0x02, 0x71d0);
+++	msleep(100);
+++
+++	rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX, 0x3d, &v);
+++	dev_info(priv->dev, "familyD relatch: sds[3d] = %04x%s\n", v,
+++		 (v & 0x10) ? "  LINK" : "");
+++}
+++
++ static int rtl8365mb_setup(struct dsa_switch *ds)
++ {
++ 	struct realtek_priv *priv = ds->priv;
++@@ -3419,6 +3466,14 @@
++ 	/* Start statistics counter polling */
++ 	rtl8365mb_stats_setup(priv);
++ 
+++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
+++		INIT_DELAYED_WORK(&mb->sds_relatch,
+++				  rtl8365mb_sds_relatch_work);
+++		schedule_delayed_work(&mb->sds_relatch,
+++				      msecs_to_jiffies(25000));
+++	}
+++
+++
++ 	return 0;
++ 
++ out_teardown_irq:
+diff --git a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+new file mode 100644
+index 00000000000000..39d92306b903b8
+--- /dev/null
++++ b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+@@ -0,0 +1,145 @@
++From: krics <krics@localhost>
++Date: Thu, 3 Sep 2026 22:30:00 +0200
++Subject: [PATCH 8/8] net: dsa: realtek: rtl8365mb: latch the family D SerDes
++
++With 930-1..930-7 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 +
++RTL8367S-VB) reports 2.5Gbps/Full on both sides but moves no frames: the
++CPU MAC transmits, s00_p06_ifInOctets stays at zero and so does
++mmc_rx_framecount_gb, with no CRC, alignment or FIFO errors anywhere.
++
++Three things are still missing, all from what the stock firmware does in
++dal_rtl8367d_port_macForceLinkExt_set() and sgmiiNway_set():
++
++  - 0x1D12 is never programmed. Stock writes the same value to both
++    0x1D11 and 0x1D12; setting only 0x1D11 leaves the receiver hunting.
++
++  - The receiver latches on a DISABLE -> HSGMII transition rather than
++    on the value, so writing 0x0E12 into a register that already reads
++    0x0E12 does nothing.
++
++  - 0x1D78 (SDS1_MISC0) has to stay at 0x001F. The vendor HSGMII branch
++    that programs it is reached only for EXT_PORT1; EXT_PORT0 runs
++    through SDS0.
++
++The transition also has to be repeated once the UNIPHY on the SoC side
++has been up for a while, together with bit 8 of SDS register 2 -
++sgmiiNway_set() clears NWAY_EN and sets that bit, while pcs_config()
++only clears NWAY_EN. Done from pcs_config() the link latches and drops
++again within a second or two; around 25 s into boot it holds, so it runs
++as delayed work. That part is a workaround rather than a fix: driving it
++from a link event would be better, but I could not work out which one.
++
++Bisected by reverting each piece in turn on a clean tree. Without the
++delayed relatch the trunk carries nothing; the same is true without the
++UNIPHY change that accompanies this (CH_FORCE_MODE cleared for
++2500base-x). Clearing NCTL_EN turned out not to be needed once 0x1D11 is
++programmed instead of 0x1D78.
++
++Signed-off-by: krics <krics@localhost>
++---
++--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
++@@ -331,6 +331,8 @@
++ #define RTL8365MB_D_SDS_MISC_MODE_SGMII			0x02
++ #define RTL8365MB_D_SDS_MISC_MODE_HSGMII		0x12
++ 
+++#define RTL8365MB_D_SDS_NWAY_LINK_MASK			0x0100
+++
++ /* Embedded DW8051 microcontroller control registers. The microcontroller
++  * can run firmware to manage the SerDes link, but this driver keeps it in
++  * reset and disabled: phylink already performs the link management that
++@@ -929,6 +931,7 @@
++ 	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
++ 	struct phylink_pcs pcs;
++ 	bool sds_supported;
+++	struct delayed_work sds_relatch;
++ };
++ 
++ #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
++@@ -1534,11 +1537,26 @@
++ 			    RTL8365MB_SDS_MISC_MAC8_SEL_HSGMII_MASK;
++ 	}
++ 
++-	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG,
++-				 misc_mask, misc_val);
+++	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG, misc_mask, misc_val);
++ 	if (ret)
++ 		return ret;
++ 
+++	if (is_d) {
+++		/* Stock programs BOTH 0x1D11 and 0x1D12 with the same value,
+++		 * and the receiver latches on a DISABLE -> HSGMII transition
+++		 * rather than on the value. It also leaves SDS1 (0x1D78)
+++		 * disabled: the vendor branch that programs it is EXT_PORT1.
+++		 */
+++		regmap_write(priv->map, RTL8365MB_D_REG_SDS1_MISC0, 0x001f);
+++
+++		regmap_write(priv->map, 0x1d11, 0x021f);
+++		regmap_write(priv->map, 0x1d12, 0x021f);
+++		msleep(20);
+++		regmap_write(priv->map, 0x1d11, 0x0e12);
+++		regmap_write(priv->map, 0x1d12, 0x0e12);
+++		msleep(100);
+++	}
+++
++ 	if (!is_d) {
++ 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
++ 		ret = regmap_update_bits(priv->map,
++@@ -1594,6 +1612,9 @@
++ 	val &= ~RTL8365MB_SDS_NWAY_EN_MASK;
++ 	val |= RTL8365MB_SDS_NWAY_RESTART_MASK;
++ 
+++	if (is_d)
+++		val |= RTL8365MB_D_SDS_NWAY_LINK_MASK; /* bit 8 */
+++
++ 	return rtl8365mb_sds_write(priv, sds_index,
++ 				   RTL8365MB_SDS_REG_NWAY, val);
++ }
++@@ -3231,6 +3252,32 @@
++ 	return 0;
++ }
++ 
+++static void rtl8365mb_sds_relatch_work(struct work_struct *work)
+++{
+++	struct rtl8365mb *mb = container_of(to_delayed_work(work),
+++					    struct rtl8365mb, sds_relatch);
+++	struct realtek_priv *priv = mb->priv;
+++	u16 v = 0;
+++
+++	/* The receiver only latches durably once the UNIPHY on the SoC side
+++	 * has been running for a while: from pcs_config() (~5 s) the link
+++	 * comes up and drops again within a second or two.
+++	 */
+++	regmap_write(priv->map, 0x1d11, 0x021f);
+++	regmap_write(priv->map, 0x1d12, 0x021f);
+++	msleep(1000);
+++	regmap_write(priv->map, 0x1d11, 0x0e12);
+++	regmap_write(priv->map, 0x1d12, 0x0e12);
+++	msleep(2000);
+++
+++	rtl8365mb_sds_write(priv, RTL8365MB_D_SDS_EXT0_INDEX, 0x02, 0x71d0);
+++	msleep(100);
+++
+++	rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX, 0x3d, &v);
+++	dev_info(priv->dev, "familyD relatch: sds[3d] = %04x%s\n", v,
+++		 (v & 0x10) ? "  LINK" : "");
+++}
+++
++ static int rtl8365mb_setup(struct dsa_switch *ds)
++ {
++ 	struct realtek_priv *priv = ds->priv;
++@@ -3419,6 +3466,14 @@
++ 	/* Start statistics counter polling */
++ 	rtl8365mb_stats_setup(priv);
++ 
+++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
+++		INIT_DELAYED_WORK(&mb->sds_relatch,
+++				  rtl8365mb_sds_relatch_work);
+++		schedule_delayed_work(&mb->sds_relatch,
+++				      msecs_to_jiffies(25000));
+++	}
+++
+++
++ 	return 0;
++ 
++ out_teardown_irq:
+
+From d086cb8af9b52cdac5fca22c546e41efe4ef0a88 Mon Sep 17 00:00:00 2001
+From: krics <krics@localhost>
+Date: Fri, 4 Sep 2026 15:21:36 +0300
+Subject: [PATCH 4/6] generic: rtl8365mb: re-latch the family D SerDes
+
+Replaces my earlier 930-8 with namiltd's version, plus 930-9 on top.
+
+The receiver latches on the DISABLE -> HSGMII edge and only once the
+UNIPHY has finished its bring-up, which is after both pcs_config() and
+pcs_link_up() have run. Kick the edge from mac_link_up() and retry until
+SDS 0x3D reports link - three attempts here, latching around 10 s into
+boot. Capped at 15 retries, cancelled in teardown().
+
+Signed-off-by: krics <krics@localhost>
+---
+ ...365mb-fix-family-D-SerDes-trunk-link.patch |  81 +++++++
+ ...-rtl8365mb-latch-the-family-D-serdes.patch | 145 ------------
+ ...l8365mb-re-latch-the-family-D-serdes.patch | 206 ++++++++++++++++++
+ ...365mb-fix-family-D-SerDes-trunk-link.patch |  81 +++++++
+ ...-rtl8365mb-latch-the-family-D-serdes.patch | 145 ------------
+ ...l8365mb-re-latch-the-family-D-serdes.patch | 206 ++++++++++++++++++
+ 6 files changed, 574 insertions(+), 290 deletions(-)
+ create mode 100644 target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+ delete mode 100644 target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+ create mode 100644 target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+ create mode 100644 target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+ delete mode 100644 target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+ create mode 100644 target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+
+diff --git a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+new file mode 100644
+index 00000000000000..2e1916d031faff
+--- /dev/null
++++ b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+@@ -0,0 +1,81 @@
++From d12765de2bc16ea6d65112a91943ee706128f8f9 Mon Sep 17 00:00:00 2001
++From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
++Date: Thu, 3 Sep 2026 23:58:21 +0200
++Subject: [PATCH] net: dsa: realtek: rtl8365mb: fix family D SerDes trunk link
++
++On a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB) the trunk reports
++2.5Gbps/Full on both sides but moves no frames: the receiver never
++asserts link (SDS 0x3d stays 0x0100 instead of 0x0111) and nothing
++crosses in either direction, with no CRC, alignment or FIFO errors.
++
++Compared against live stock firmware, two things are missing, both
++inside pcs_config() for family D:
++
++ - Bit 9 (0x0200) of SDS_MISC (0x1D11) is never set. Stock programs
++   0x0E12 there; the driver only writes the PA enables and the mode
++   field (0x0C12). Bit 9 is the forced-LINK bit, same position as the
++   family C RTL8365MB_SDS_MISC_SGMII_LINK_MASK.
++
++ - The companion register 0x1D12 is never written at all. Stock writes
++   the same value to 0x1D11 and 0x1D12; programming only 0x1D11 leaves
++   the receiver hunting.
++
++Since both registers get the same mask/value, compute misc_mask and
++misc_val once and program both. The DISABLE -> HSGMII edge comes for
++free from the reset defaults, so no extra toggle sequence is needed.
++SDS1 (0x1D78) is intentionally not touched: it stays at its reset
++value 0x001F, the vendor branch programming it applies to EXT_PORT1
++only and this port runs through SDS0.
++
++Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
++---
++ drivers/net/dsa/realtek/rtl8365mb_main.c | 21 +++++++++++++++++++--
++ 1 file changed, 19 insertions(+), 2 deletions(-)
++
++diff --git a/drivers/net/dsa/realtek/rtl8365mb_main.c b/drivers/net/dsa/realtek/rtl8365mb_main.c
++index b1e46c7..e0c1893 100644
++--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
++@@ -284,6 +284,11 @@
 + #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
 + #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
 + 
+++#define RTL8365MB_D_REG_SDS_MISC2			0x1D12
 ++
-++/* SerDes status register, reached through the SDS_INDACS window */
-++#define RTL8365MB_D_SDS_RELATCH_TRIES			15
-++#define RTL8365MB_D_SDS_RELATCH_INTERVAL_MS		1000
-++
-++#define RTL8365MB_D_SDS_REG_STATUS			0x3D
-++#define   RTL8365MB_D_SDS_STATUS_LINK			0x0010
+++/* Forced-LINK bit, same position as RTL8365MB_SDS_MISC_SGMII_LINK_MASK */
+++#define RTL8365MB_D_SDS_MISC_LINK_MASK			0x0200
 ++
 + /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
 +  * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
 +  * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
-+@@ -929,6 +937,8 @@ struct rtl8365mb {
++@@ -1522,9 +1527,11 @@ static int rtl8365mb_pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
++ 
++ 		misc_mask = RTL8365MB_D_SDS_MISC_PA33PC_EN |
++ 			    RTL8365MB_D_SDS_MISC_PA12PC_EN |
++-			    RTL8365MB_D_SDS_MISC_MODE_MASK;
+++			    RTL8365MB_D_SDS_MISC_MODE_MASK |
+++			    RTL8365MB_D_SDS_MISC_LINK_MASK;
++ 		misc_val  = RTL8365MB_D_SDS_MISC_PA33PC_EN |
++-			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode;
+++			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode |
+++			    RTL8365MB_D_SDS_MISC_LINK_MASK;
++ 	} else {
++ 		/* Mux the SerDes to MAC8 in the requested mode */
++ 		misc_mask = RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK |
++@@ -1539,6 +1546,16 @@ static int rtl8365mb_pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
++ 	if (ret)
++ 		return ret;
++ 
+++	/* Stock programs the companion register 0x1D12 with the same value;
+++	 * programming 0x1D11 alone leaves the receiver hunting.
+++	 */
+++	if (is_d) {
+++		ret = regmap_update_bits(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+++					 misc_mask, misc_val);
+++		if (ret)
+++			return ret;
+++	}
+++
++ 	if (!is_d) {
++ 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
++ 		ret = regmap_update_bits(priv->map,
+diff --git a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+deleted file mode 100644
+index 39d92306b903b8..00000000000000
+--- a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
++++ /dev/null
+@@ -1,145 +0,0 @@
+-From: krics <krics@localhost>
+-Date: Thu, 3 Sep 2026 22:30:00 +0200
+-Subject: [PATCH 8/8] net: dsa: realtek: rtl8365mb: latch the family D SerDes
+-
+-With 930-1..930-7 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 +
+-RTL8367S-VB) reports 2.5Gbps/Full on both sides but moves no frames: the
+-CPU MAC transmits, s00_p06_ifInOctets stays at zero and so does
+-mmc_rx_framecount_gb, with no CRC, alignment or FIFO errors anywhere.
+-
+-Three things are still missing, all from what the stock firmware does in
+-dal_rtl8367d_port_macForceLinkExt_set() and sgmiiNway_set():
+-
+-  - 0x1D12 is never programmed. Stock writes the same value to both
+-    0x1D11 and 0x1D12; setting only 0x1D11 leaves the receiver hunting.
+-
+-  - The receiver latches on a DISABLE -> HSGMII transition rather than
+-    on the value, so writing 0x0E12 into a register that already reads
+-    0x0E12 does nothing.
+-
+-  - 0x1D78 (SDS1_MISC0) has to stay at 0x001F. The vendor HSGMII branch
+-    that programs it is reached only for EXT_PORT1; EXT_PORT0 runs
+-    through SDS0.
+-
+-The transition also has to be repeated once the UNIPHY on the SoC side
+-has been up for a while, together with bit 8 of SDS register 2 -
+-sgmiiNway_set() clears NWAY_EN and sets that bit, while pcs_config()
+-only clears NWAY_EN. Done from pcs_config() the link latches and drops
+-again within a second or two; around 25 s into boot it holds, so it runs
+-as delayed work. That part is a workaround rather than a fix: driving it
+-from a link event would be better, but I could not work out which one.
+-
+-Bisected by reverting each piece in turn on a clean tree. Without the
+-delayed relatch the trunk carries nothing; the same is true without the
+-UNIPHY change that accompanies this (CH_FORCE_MODE cleared for
+-2500base-x). Clearing NCTL_EN turned out not to be needed once 0x1D11 is
+-programmed instead of 0x1D78.
+-
+-Signed-off-by: krics <krics@localhost>
+----
+---- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+-+++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-@@ -331,6 +331,8 @@
+- #define RTL8365MB_D_SDS_MISC_MODE_SGMII			0x02
+- #define RTL8365MB_D_SDS_MISC_MODE_HSGMII		0x12
+- 
+-+#define RTL8365MB_D_SDS_NWAY_LINK_MASK			0x0100
+-+
+- /* Embedded DW8051 microcontroller control registers. The microcontroller
+-  * can run firmware to manage the SerDes link, but this driver keeps it in
+-  * reset and disabled: phylink already performs the link management that
+-@@ -929,6 +931,7 @@
+- 	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
+- 	struct phylink_pcs pcs;
+- 	bool sds_supported;
+-+	struct delayed_work sds_relatch;
+- };
+- 
+- #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
+-@@ -1534,11 +1537,26 @@
+- 			    RTL8365MB_SDS_MISC_MAC8_SEL_HSGMII_MASK;
+- 	}
+- 
+--	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG,
+--				 misc_mask, misc_val);
+-+	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG, misc_mask, misc_val);
+- 	if (ret)
+- 		return ret;
+- 
+-+	if (is_d) {
+-+		/* Stock programs BOTH 0x1D11 and 0x1D12 with the same value,
+-+		 * and the receiver latches on a DISABLE -> HSGMII transition
+-+		 * rather than on the value. It also leaves SDS1 (0x1D78)
+-+		 * disabled: the vendor branch that programs it is EXT_PORT1.
+-+		 */
+-+		regmap_write(priv->map, RTL8365MB_D_REG_SDS1_MISC0, 0x001f);
+-+
+-+		regmap_write(priv->map, 0x1d11, 0x021f);
+-+		regmap_write(priv->map, 0x1d12, 0x021f);
+-+		msleep(20);
+-+		regmap_write(priv->map, 0x1d11, 0x0e12);
+-+		regmap_write(priv->map, 0x1d12, 0x0e12);
+-+		msleep(100);
+-+	}
+-+
+- 	if (!is_d) {
+- 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
+- 		ret = regmap_update_bits(priv->map,
+-@@ -1594,6 +1612,9 @@
+- 	val &= ~RTL8365MB_SDS_NWAY_EN_MASK;
+- 	val |= RTL8365MB_SDS_NWAY_RESTART_MASK;
+- 
+-+	if (is_d)
+-+		val |= RTL8365MB_D_SDS_NWAY_LINK_MASK; /* bit 8 */
+-+
+- 	return rtl8365mb_sds_write(priv, sds_index,
+- 				   RTL8365MB_SDS_REG_NWAY, val);
+- }
+-@@ -3231,6 +3252,32 @@
+- 	return 0;
+- }
+- 
+-+static void rtl8365mb_sds_relatch_work(struct work_struct *work)
+-+{
+-+	struct rtl8365mb *mb = container_of(to_delayed_work(work),
+-+					    struct rtl8365mb, sds_relatch);
+-+	struct realtek_priv *priv = mb->priv;
+-+	u16 v = 0;
+-+
+-+	/* The receiver only latches durably once the UNIPHY on the SoC side
+-+	 * has been running for a while: from pcs_config() (~5 s) the link
+-+	 * comes up and drops again within a second or two.
+-+	 */
+-+	regmap_write(priv->map, 0x1d11, 0x021f);
+-+	regmap_write(priv->map, 0x1d12, 0x021f);
+-+	msleep(1000);
+-+	regmap_write(priv->map, 0x1d11, 0x0e12);
+-+	regmap_write(priv->map, 0x1d12, 0x0e12);
+-+	msleep(2000);
+-+
+-+	rtl8365mb_sds_write(priv, RTL8365MB_D_SDS_EXT0_INDEX, 0x02, 0x71d0);
+-+	msleep(100);
+-+
+-+	rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX, 0x3d, &v);
+-+	dev_info(priv->dev, "familyD relatch: sds[3d] = %04x%s\n", v,
+-+		 (v & 0x10) ? "  LINK" : "");
+-+}
+-+
+- static int rtl8365mb_setup(struct dsa_switch *ds)
+- {
+- 	struct realtek_priv *priv = ds->priv;
+-@@ -3419,6 +3466,14 @@
+- 	/* Start statistics counter polling */
+- 	rtl8365mb_stats_setup(priv);
+- 
+-+	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
+-+		INIT_DELAYED_WORK(&mb->sds_relatch,
+-+				  rtl8365mb_sds_relatch_work);
+-+		schedule_delayed_work(&mb->sds_relatch,
+-+				      msecs_to_jiffies(25000));
+-+	}
+-+
+-+
+- 	return 0;
+- 
+- out_teardown_irq:
+diff --git a/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+new file mode 100644
+index 00000000000000..8391131900c7a4
+--- /dev/null
++++ b/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+@@ -0,0 +1,206 @@
++From: krics <krics@localhost>
++Date: Fri, 4 Sep 2026 15:30:00 +0200
++Subject: [PATCH 9/9] net: dsa: realtek: rtl8365mb: re-latch the family D SerDes
++
++With 930-8 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB)
++still moves no frames: link is reported at 2.5Gbps/Full on both sides,
++the CPU MAC transmits, and s00_p06_ifInOctets and mmc_rx_framecount_gb
++both stay at zero, with no CRC, alignment or FIFO errors.
++
++The receiver latches on the DISABLE -> HSGMII edge rather than on the
++value in SDS_MISC, and only once the UNIPHY on the SoC side has finished
++its own bring-up. Neither is satisfied where the mode is programmed:
++
++  - The edge does not happen. By the time pcs_config() runs the mode
++    field already holds the target value, so regmap_update_bits() writes
++    nothing. Parking the mode at DISABLE first does produce an edge, but
++    the receiver still does not latch - it is too early.
++
++  - pcs_link_up() is no better: it runs about a millisecond before
++    phylink reports the link. Instrumented, SDS 0x3D reads 0x0100 right
++    after the edge is driven from there.
++
++Driving it later does work. Timing a workqueue against boot: at 25 s, 8 s
++and 3 s it latches on the first attempt, while with no delay the mode
++field still reads 0x021F because pcs_config() has not run yet. So kick
++the work from mac_link_up(), which is the last callback in the chain, and
++redo the edge until SDS 0x3D reports link. Here it takes three attempts,
++latching around 10 s into boot, reproducibly across reboots.
++
++Retries are capped so a board where this never latches does not spin
++forever, and the work is cancelled in teardown().
++
++What changes between a failing and a succeeding attempt is still unknown
++to me - something on the SoC side finishing its bring-up is the obvious
++guess, but nothing I can read in the UNIPHY registers differs between the
++two. A driver-side event to key off would be better than the poll.
++
++Signed-off-by: krics <krics@localhost>
++---
++--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
++@@ -286,6 +286,10 @@
++ 
++ #define RTL8365MB_D_REG_SDS_MISC2			0x1D12
++ 
+++/* SerDes status register, reached through the SDS_INDACS window */
+++#define RTL8365MB_D_SDS_REG_STATUS			0x3D
+++#define   RTL8365MB_D_SDS_STATUS_LINK			0x0010
+++
++ /* Forced-LINK bit, same position as RTL8365MB_SDS_MISC_SGMII_LINK_MASK */
++ #define RTL8365MB_D_SDS_MISC_LINK_MASK			0x0200
++ 
++@@ -934,6 +938,8 @@
 + 	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
 + 	struct phylink_pcs pcs;
 + 	bool sds_supported;
@@ -2490,25 +2835,26 @@ index 00000000000000..05b0808e84af4b
 + };
 + 
 + #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
-+@@ -1532,7 +1542,30 @@ static int rtl8365mb_pcs_config(struct p
-+ 	if (ret)
-+ 		return ret;
++@@ -1548,10 +1554,31 @@
 + 
-+-	if (!is_d) {
-++	/* The receiver latches on the DISABLE -> HSGMII edge rather than on
++ 	/* Stock programs the companion register 0x1D12 with the same value;
++ 	 * programming 0x1D11 alone leaves the receiver hunting.
+++	 *
+++	 * The receiver latches on the DISABLE -> HSGMII edge rather than on
 ++	 * the value, so park the mode field first: regmap_update_bits() is a
 ++	 * no-op when the register already holds the target value.
-++	 *
-++	 * These are full writes rather than update_bits: misc_val carries
-++	 * every field of SDS_MISC that matters here (the PA enables,
-++	 * MAC6_SEL_SDS0 and the mode), and comes out as 0x0E12 - the same
-++	 * value the stock firmware holds with the trunk up.
-++	 */
-++	if (is_d) {
++ 	 */
++ 	if (is_d) {
++-		ret = regmap_update_bits(priv->map, RTL8365MB_D_REG_SDS_MISC2,
++-					 misc_mask, misc_val);
 ++		u32 park = (misc_val & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
 ++			   RTL8365MB_D_PORT_SDS_MODE_DISABLE;
 ++
 ++		ret = regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, park);
+++		if (ret)
+++			return ret;
+++
+++		ret = regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, park);
 ++		if (ret)
 ++			return ret;
 ++
@@ -2518,40 +2864,12 @@ index 00000000000000..05b0808e84af4b
 ++		if (ret)
 ++			return ret;
 ++
-++	} else {
-+ 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
-+ 		ret = regmap_update_bits(priv->map,
-+ 					 RTL8365MB_DIGITAL_INTERFACE_SELECT_REG(id),
-+@@ -1579,8 +1612,26 @@ static int rtl8365mb_pcs_config(struct p
-+ 	val &= ~RTL8365MB_SDS_NWAY_EN_MASK;
-+ 	val |= RTL8365MB_SDS_NWAY_RESTART_MASK;
-+ 
-+-	return rtl8365mb_sds_write(priv, sds_index,
-+-				   RTL8365MB_SDS_REG_NWAY, val);
-++	ret = rtl8365mb_sds_write(priv, sds_index,
-++				  RTL8365MB_SDS_REG_NWAY, val);
-++	if (ret)
-++		return ret;
-++
-++	/* Last: the receiver latches on the DISABLE -> HSGMII edge, and the
-++	 * SerDes and data-path resets above would wipe it if this ran any
-++	 * earlier.
-++	 */
-++	if (is_d) {
-++		mb->sds_relatch_tries = 0;
-++		/* The far end (ipq5018-gmac-dwmac) only brings its side up
-++		 * around 8 s into boot, and the receiver will not latch
-++		 * before that. One attempt, timed for just after.
-++		 */
-++		schedule_delayed_work(&mb->sds_relatch,
-++				      msecs_to_jiffies(RTL8365MB_D_SDS_RELATCH_INTERVAL_MS));
-++	}
-++
-++	return 0;
-+ }
-+ 
-+ static bool rtl8365mb_interface_is_serdes(phy_interface_t interface)
-+@@ -1682,6 +1733,10 @@ static void rtl8365mb_pcs_link_up(struct
+++		ret = regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+++				   misc_val);
++ 		if (ret)
++ 			return ret;
++ 	}
++@@ -1714,6 +1741,10 @@
 + 
 + 	/* Family D forces the external MAC ability from mac_link_up(); its
 + 	 * SDS_MISC fields do not share the family C link-force layout.
@@ -2562,35 +2880,34 @@ index 00000000000000..05b0808e84af4b
 + 	 */
 + 	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
 + 		return;
-+@@ -1991,6 +2046,14 @@ static void rtl8365mb_phylink_mac_link_u
++@@ -2023,6 +2054,12 @@
 + 			return;
 + 		}
 + 
-++		/* The work sleeps inside the sequence, so stop an attempt
-++		 * still in flight before re-arming. Only a genuinely new
-++		 * link event resets the budget: re-arming mid-attempt would
-++		 * let a flapping link defeat the retry cap entirely, and the
-++		 * attempt itself parks the mode for 20 ms, which can be what
-++		 * makes the link flap in the first place.
-++		 */
+++		if (rtl8365mb_interface_is_serdes(interface) &&
+++		    rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
+++			mb->sds_relatch_tries = 0;
+++			schedule_delayed_work(&mb->sds_relatch, 0);
+++		}
 ++
 + 		/* The SerDes has its own pause enables; program them from
 + 		 * the resolved pause modes, as the vendor driver does when
 + 		 * forcing the link on a SerDes external interface. These
-+@@ -3206,6 +3269,62 @@ static int rtl8365mb_reset_chip(struct r
-+ 					20000, 1e6);
++@@ -3248,6 +3285,65 @@
++ 	return 0;
 + }
 + 
-++/* The family D receiver latches on a DISABLE -> HSGMII edge in SDS_MISC
-++ * rather than on the value, and not until the MAC at the other end of the
-++ * trunk has brought its own half of the link up. On the boards seen so far
-++ * that happens seconds after pcs_config() has returned, so the edge is
-++ * driven from here and retried until the receiver reports link.
-++ *
-++ * How long the far end takes is a property of the boot rather than of this
-++ * chip, and there is no path from this driver to the other MAC - it sits on
-++ * the SoC side, behind a different driver - hence the poll.
+++static unsigned int relatch_ms = 0;
+++module_param(relatch_ms, uint, 0644);
+++
+++/* The family D receiver latches on a DISABLE -> HSGMII edge rather than on
+++ * the value in SDS_MISC, and only once the UNIPHY on the SoC side has
+++ * finished its own bring-up. Both pcs_config() and pcs_link_up() run before
+++ * that point, so the edge is redone from here until the receiver reports
+++ * link, or until we give up.
 ++ */
+++#define RTL8365MB_D_SDS_RELATCH_TRIES		15
+++#define RTL8365MB_D_SDS_RELATCH_INTERVAL_MS	2000
 ++
 ++static void rtl8365mb_sds_relatch_work(struct work_struct *work)
 ++{
@@ -2612,8 +2929,10 @@ index 00000000000000..05b0808e84af4b
 ++	       RTL8365MB_D_PORT_SDS_MODE_DISABLE;
 ++
 ++	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, park);
+++	regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, park);
 ++	msleep(20);
 ++	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, target);
+++	regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, target);
 ++	msleep(200);
 ++
 ++	if (rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX,
@@ -2640,25 +2959,1498 @@ index 00000000000000..05b0808e84af4b
 + static int rtl8365mb_setup(struct dsa_switch *ds)
 + {
 + 	struct realtek_priv *priv = ds->priv;
-+@@ -3227,6 +3346,10 @@ static int rtl8365mb_setup(struct dsa_sw
-+ 	 */
-+ 	mb->pcs.poll = true;
++@@ -3436,6 +3532,10 @@
++ 	/* Start statistics counter polling */
++ 	rtl8365mb_stats_setup(priv);
 + 
 ++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
 ++		INIT_DELAYED_WORK(&mb->sds_relatch,
 ++				  rtl8365mb_sds_relatch_work);
 ++
-+ 	ret = rtl8365mb_reset_chip(priv);
-+ 	if (ret) {
-+ 		dev_err(priv->dev, "failed to reset chip: %pe\n",
-+@@ -3411,6 +3534,10 @@ out_error:
++ 	return 0;
++ 
++ out_teardown_irq:
++@@ -3448,6 +3548,9 @@
 + static void rtl8365mb_teardown(struct dsa_switch *ds)
 + {
 + 	struct realtek_priv *priv = ds->priv;
 ++	struct rtl8365mb *mb = priv->chip_data;
 ++
-++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
-++		cancel_delayed_work_sync(&mb->sds_relatch);
+++	cancel_delayed_work_sync(&mb->sds_relatch);
 + 
 + 	rtl8365mb_stats_teardown(priv);
 + 	rtl8365mb_irq_teardown(priv);
+diff --git a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+new file mode 100644
+index 00000000000000..2e1916d031faff
+--- /dev/null
++++ b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+@@ -0,0 +1,81 @@
++From d12765de2bc16ea6d65112a91943ee706128f8f9 Mon Sep 17 00:00:00 2001
++From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
++Date: Thu, 3 Sep 2026 23:58:21 +0200
++Subject: [PATCH] net: dsa: realtek: rtl8365mb: fix family D SerDes trunk link
++
++On a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB) the trunk reports
++2.5Gbps/Full on both sides but moves no frames: the receiver never
++asserts link (SDS 0x3d stays 0x0100 instead of 0x0111) and nothing
++crosses in either direction, with no CRC, alignment or FIFO errors.
++
++Compared against live stock firmware, two things are missing, both
++inside pcs_config() for family D:
++
++ - Bit 9 (0x0200) of SDS_MISC (0x1D11) is never set. Stock programs
++   0x0E12 there; the driver only writes the PA enables and the mode
++   field (0x0C12). Bit 9 is the forced-LINK bit, same position as the
++   family C RTL8365MB_SDS_MISC_SGMII_LINK_MASK.
++
++ - The companion register 0x1D12 is never written at all. Stock writes
++   the same value to 0x1D11 and 0x1D12; programming only 0x1D11 leaves
++   the receiver hunting.
++
++Since both registers get the same mask/value, compute misc_mask and
++misc_val once and program both. The DISABLE -> HSGMII edge comes for
++free from the reset defaults, so no extra toggle sequence is needed.
++SDS1 (0x1D78) is intentionally not touched: it stays at its reset
++value 0x001F, the vendor branch programming it applies to EXT_PORT1
++only and this port runs through SDS0.
++
++Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
++---
++ drivers/net/dsa/realtek/rtl8365mb_main.c | 21 +++++++++++++++++++--
++ 1 file changed, 19 insertions(+), 2 deletions(-)
++
++diff --git a/drivers/net/dsa/realtek/rtl8365mb_main.c b/drivers/net/dsa/realtek/rtl8365mb_main.c
++index b1e46c7..e0c1893 100644
++--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
++@@ -284,6 +284,11 @@
++ #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
++ #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
++ 
+++#define RTL8365MB_D_REG_SDS_MISC2			0x1D12
+++
+++/* Forced-LINK bit, same position as RTL8365MB_SDS_MISC_SGMII_LINK_MASK */
+++#define RTL8365MB_D_SDS_MISC_LINK_MASK			0x0200
+++
++ /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
++  * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
++  * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
++@@ -1522,9 +1527,11 @@ static int rtl8365mb_pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
++ 
++ 		misc_mask = RTL8365MB_D_SDS_MISC_PA33PC_EN |
++ 			    RTL8365MB_D_SDS_MISC_PA12PC_EN |
++-			    RTL8365MB_D_SDS_MISC_MODE_MASK;
+++			    RTL8365MB_D_SDS_MISC_MODE_MASK |
+++			    RTL8365MB_D_SDS_MISC_LINK_MASK;
++ 		misc_val  = RTL8365MB_D_SDS_MISC_PA33PC_EN |
++-			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode;
+++			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode |
+++			    RTL8365MB_D_SDS_MISC_LINK_MASK;
++ 	} else {
++ 		/* Mux the SerDes to MAC8 in the requested mode */
++ 		misc_mask = RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK |
++@@ -1539,6 +1546,16 @@ static int rtl8365mb_pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
++ 	if (ret)
++ 		return ret;
++ 
+++	/* Stock programs the companion register 0x1D12 with the same value;
+++	 * programming 0x1D11 alone leaves the receiver hunting.
+++	 */
+++	if (is_d) {
+++		ret = regmap_update_bits(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+++					 misc_mask, misc_val);
+++		if (ret)
+++			return ret;
+++	}
+++
++ 	if (!is_d) {
++ 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
++ 		ret = regmap_update_bits(priv->map,
+diff --git a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
+deleted file mode 100644
+index 39d92306b903b8..00000000000000
+--- a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-latch-the-family-D-serdes.patch
++++ /dev/null
+@@ -1,145 +0,0 @@
+-From: krics <krics@localhost>
+-Date: Thu, 3 Sep 2026 22:30:00 +0200
+-Subject: [PATCH 8/8] net: dsa: realtek: rtl8365mb: latch the family D SerDes
+-
+-With 930-1..930-7 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 +
+-RTL8367S-VB) reports 2.5Gbps/Full on both sides but moves no frames: the
+-CPU MAC transmits, s00_p06_ifInOctets stays at zero and so does
+-mmc_rx_framecount_gb, with no CRC, alignment or FIFO errors anywhere.
+-
+-Three things are still missing, all from what the stock firmware does in
+-dal_rtl8367d_port_macForceLinkExt_set() and sgmiiNway_set():
+-
+-  - 0x1D12 is never programmed. Stock writes the same value to both
+-    0x1D11 and 0x1D12; setting only 0x1D11 leaves the receiver hunting.
+-
+-  - The receiver latches on a DISABLE -> HSGMII transition rather than
+-    on the value, so writing 0x0E12 into a register that already reads
+-    0x0E12 does nothing.
+-
+-  - 0x1D78 (SDS1_MISC0) has to stay at 0x001F. The vendor HSGMII branch
+-    that programs it is reached only for EXT_PORT1; EXT_PORT0 runs
+-    through SDS0.
+-
+-The transition also has to be repeated once the UNIPHY on the SoC side
+-has been up for a while, together with bit 8 of SDS register 2 -
+-sgmiiNway_set() clears NWAY_EN and sets that bit, while pcs_config()
+-only clears NWAY_EN. Done from pcs_config() the link latches and drops
+-again within a second or two; around 25 s into boot it holds, so it runs
+-as delayed work. That part is a workaround rather than a fix: driving it
+-from a link event would be better, but I could not work out which one.
+-
+-Bisected by reverting each piece in turn on a clean tree. Without the
+-delayed relatch the trunk carries nothing; the same is true without the
+-UNIPHY change that accompanies this (CH_FORCE_MODE cleared for
+-2500base-x). Clearing NCTL_EN turned out not to be needed once 0x1D11 is
+-programmed instead of 0x1D78.
+-
+-Signed-off-by: krics <krics@localhost>
+----
+---- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+-+++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-@@ -331,6 +331,8 @@
+- #define RTL8365MB_D_SDS_MISC_MODE_SGMII			0x02
+- #define RTL8365MB_D_SDS_MISC_MODE_HSGMII		0x12
+- 
+-+#define RTL8365MB_D_SDS_NWAY_LINK_MASK			0x0100
+-+
+- /* Embedded DW8051 microcontroller control registers. The microcontroller
+-  * can run firmware to manage the SerDes link, but this driver keeps it in
+-  * reset and disabled: phylink already performs the link management that
+-@@ -929,6 +931,7 @@
+- 	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
+- 	struct phylink_pcs pcs;
+- 	bool sds_supported;
+-+	struct delayed_work sds_relatch;
+- };
+- 
+- #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
+-@@ -1534,11 +1537,26 @@
+- 			    RTL8365MB_SDS_MISC_MAC8_SEL_HSGMII_MASK;
+- 	}
+- 
+--	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG,
+--				 misc_mask, misc_val);
+-+	ret = regmap_update_bits(priv->map, RTL8365MB_SDS_MISC_REG, misc_mask, misc_val);
+- 	if (ret)
+- 		return ret;
+- 
+-+	if (is_d) {
+-+		/* Stock programs BOTH 0x1D11 and 0x1D12 with the same value,
+-+		 * and the receiver latches on a DISABLE -> HSGMII transition
+-+		 * rather than on the value. It also leaves SDS1 (0x1D78)
+-+		 * disabled: the vendor branch that programs it is EXT_PORT1.
+-+		 */
+-+		regmap_write(priv->map, RTL8365MB_D_REG_SDS1_MISC0, 0x001f);
+-+
+-+		regmap_write(priv->map, 0x1d11, 0x021f);
+-+		regmap_write(priv->map, 0x1d12, 0x021f);
+-+		msleep(20);
+-+		regmap_write(priv->map, 0x1d11, 0x0e12);
+-+		regmap_write(priv->map, 0x1d12, 0x0e12);
+-+		msleep(100);
+-+	}
+-+
+- 	if (!is_d) {
+- 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
+- 		ret = regmap_update_bits(priv->map,
+-@@ -1594,6 +1612,9 @@
+- 	val &= ~RTL8365MB_SDS_NWAY_EN_MASK;
+- 	val |= RTL8365MB_SDS_NWAY_RESTART_MASK;
+- 
+-+	if (is_d)
+-+		val |= RTL8365MB_D_SDS_NWAY_LINK_MASK; /* bit 8 */
+-+
+- 	return rtl8365mb_sds_write(priv, sds_index,
+- 				   RTL8365MB_SDS_REG_NWAY, val);
+- }
+-@@ -3231,6 +3252,32 @@
+- 	return 0;
+- }
+- 
+-+static void rtl8365mb_sds_relatch_work(struct work_struct *work)
+-+{
+-+	struct rtl8365mb *mb = container_of(to_delayed_work(work),
+-+					    struct rtl8365mb, sds_relatch);
+-+	struct realtek_priv *priv = mb->priv;
+-+	u16 v = 0;
+-+
+-+	/* The receiver only latches durably once the UNIPHY on the SoC side
+-+	 * has been running for a while: from pcs_config() (~5 s) the link
+-+	 * comes up and drops again within a second or two.
+-+	 */
+-+	regmap_write(priv->map, 0x1d11, 0x021f);
+-+	regmap_write(priv->map, 0x1d12, 0x021f);
+-+	msleep(1000);
+-+	regmap_write(priv->map, 0x1d11, 0x0e12);
+-+	regmap_write(priv->map, 0x1d12, 0x0e12);
+-+	msleep(2000);
+-+
+-+	rtl8365mb_sds_write(priv, RTL8365MB_D_SDS_EXT0_INDEX, 0x02, 0x71d0);
+-+	msleep(100);
+-+
+-+	rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX, 0x3d, &v);
+-+	dev_info(priv->dev, "familyD relatch: sds[3d] = %04x%s\n", v,
+-+		 (v & 0x10) ? "  LINK" : "");
+-+}
+-+
+- static int rtl8365mb_setup(struct dsa_switch *ds)
+- {
+- 	struct realtek_priv *priv = ds->priv;
+-@@ -3419,6 +3466,14 @@
+- 	/* Start statistics counter polling */
+- 	rtl8365mb_stats_setup(priv);
+- 
+-+	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
+-+		INIT_DELAYED_WORK(&mb->sds_relatch,
+-+				  rtl8365mb_sds_relatch_work);
+-+		schedule_delayed_work(&mb->sds_relatch,
+-+				      msecs_to_jiffies(25000));
+-+	}
+-+
+-+
+- 	return 0;
+- 
+- out_teardown_irq:
+diff --git a/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+new file mode 100644
+index 00000000000000..8391131900c7a4
+--- /dev/null
++++ b/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+@@ -0,0 +1,206 @@
++From: krics <krics@localhost>
++Date: Fri, 4 Sep 2026 15:30:00 +0200
++Subject: [PATCH 9/9] net: dsa: realtek: rtl8365mb: re-latch the family D SerDes
++
++With 930-8 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB)
++still moves no frames: link is reported at 2.5Gbps/Full on both sides,
++the CPU MAC transmits, and s00_p06_ifInOctets and mmc_rx_framecount_gb
++both stay at zero, with no CRC, alignment or FIFO errors.
++
++The receiver latches on the DISABLE -> HSGMII edge rather than on the
++value in SDS_MISC, and only once the UNIPHY on the SoC side has finished
++its own bring-up. Neither is satisfied where the mode is programmed:
++
++  - The edge does not happen. By the time pcs_config() runs the mode
++    field already holds the target value, so regmap_update_bits() writes
++    nothing. Parking the mode at DISABLE first does produce an edge, but
++    the receiver still does not latch - it is too early.
++
++  - pcs_link_up() is no better: it runs about a millisecond before
++    phylink reports the link. Instrumented, SDS 0x3D reads 0x0100 right
++    after the edge is driven from there.
++
++Driving it later does work. Timing a workqueue against boot: at 25 s, 8 s
++and 3 s it latches on the first attempt, while with no delay the mode
++field still reads 0x021F because pcs_config() has not run yet. So kick
++the work from mac_link_up(), which is the last callback in the chain, and
++redo the edge until SDS 0x3D reports link. Here it takes three attempts,
++latching around 10 s into boot, reproducibly across reboots.
++
++Retries are capped so a board where this never latches does not spin
++forever, and the work is cancelled in teardown().
++
++What changes between a failing and a succeeding attempt is still unknown
++to me - something on the SoC side finishing its bring-up is the obvious
++guess, but nothing I can read in the UNIPHY registers differs between the
++two. A driver-side event to key off would be better than the poll.
++
++Signed-off-by: krics <krics@localhost>
++---
++--- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+++++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
++@@ -286,6 +286,10 @@
++ 
++ #define RTL8365MB_D_REG_SDS_MISC2			0x1D12
++ 
+++/* SerDes status register, reached through the SDS_INDACS window */
+++#define RTL8365MB_D_SDS_REG_STATUS			0x3D
+++#define   RTL8365MB_D_SDS_STATUS_LINK			0x0010
+++
++ /* Forced-LINK bit, same position as RTL8365MB_SDS_MISC_SGMII_LINK_MASK */
++ #define RTL8365MB_D_SDS_MISC_LINK_MASK			0x0200
++ 
++@@ -934,6 +938,8 @@
++ 	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
++ 	struct phylink_pcs pcs;
++ 	bool sds_supported;
+++	struct delayed_work sds_relatch;
+++	unsigned int sds_relatch_tries;
++ };
++ 
++ #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
++@@ -1548,10 +1554,31 @@
++ 
++ 	/* Stock programs the companion register 0x1D12 with the same value;
++ 	 * programming 0x1D11 alone leaves the receiver hunting.
+++	 *
+++	 * The receiver latches on the DISABLE -> HSGMII edge rather than on
+++	 * the value, so park the mode field first: regmap_update_bits() is a
+++	 * no-op when the register already holds the target value.
++ 	 */
++ 	if (is_d) {
++-		ret = regmap_update_bits(priv->map, RTL8365MB_D_REG_SDS_MISC2,
++-					 misc_mask, misc_val);
+++		u32 park = (misc_val & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
+++			   RTL8365MB_D_PORT_SDS_MODE_DISABLE;
+++
+++		ret = regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, park);
+++		if (ret)
+++			return ret;
+++
+++		ret = regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, park);
+++		if (ret)
+++			return ret;
+++
+++		usleep_range(20000, 25000);
+++
+++		ret = regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, misc_val);
+++		if (ret)
+++			return ret;
+++
+++		ret = regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+++				   misc_val);
++ 		if (ret)
++ 			return ret;
++ 	}
++@@ -1714,6 +1741,10 @@
++ 
++ 	/* Family D forces the external MAC ability from mac_link_up(); its
++ 	 * SDS_MISC fields do not share the family C link-force layout.
+++	 *
+++	 * The SerDes re-latch cannot be driven from here either: this runs
+++	 * about a millisecond before phylink reports the link, and the edge
+++	 * does not take that early. Kick off the retry work instead.
++ 	 */
++ 	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
++ 		return;
++@@ -2023,6 +2054,12 @@
++ 			return;
++ 		}
++ 
+++		if (rtl8365mb_interface_is_serdes(interface) &&
+++		    rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
+++			mb->sds_relatch_tries = 0;
+++			schedule_delayed_work(&mb->sds_relatch, 0);
+++		}
+++
++ 		/* The SerDes has its own pause enables; program them from
++ 		 * the resolved pause modes, as the vendor driver does when
++ 		 * forcing the link on a SerDes external interface. These
++@@ -3248,6 +3285,65 @@
++ 	return 0;
++ }
++ 
+++static unsigned int relatch_ms = 0;
+++module_param(relatch_ms, uint, 0644);
+++
+++/* The family D receiver latches on a DISABLE -> HSGMII edge rather than on
+++ * the value in SDS_MISC, and only once the UNIPHY on the SoC side has
+++ * finished its own bring-up. Both pcs_config() and pcs_link_up() run before
+++ * that point, so the edge is redone from here until the receiver reports
+++ * link, or until we give up.
+++ */
+++#define RTL8365MB_D_SDS_RELATCH_TRIES		15
+++#define RTL8365MB_D_SDS_RELATCH_INTERVAL_MS	2000
+++
+++static void rtl8365mb_sds_relatch_work(struct work_struct *work)
+++{
+++	struct rtl8365mb *mb = container_of(to_delayed_work(work),
+++					    struct rtl8365mb, sds_relatch);
+++	struct realtek_priv *priv = mb->priv;
+++	u32 park, target;
+++	u16 status = 0;
+++
+++	if (regmap_read(priv->map, RTL8365MB_SDS_MISC_REG, &target))
+++		return;
+++
+++	/* pcs_config() has not run yet: nothing to re-latch. */
+++	if ((target & RTL8365MB_D_SDS_MISC_MODE_MASK) ==
+++	    RTL8365MB_D_PORT_SDS_MODE_DISABLE)
+++		goto again;
+++
+++	park = (target & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
+++	       RTL8365MB_D_PORT_SDS_MODE_DISABLE;
+++
+++	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, park);
+++	regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, park);
+++	msleep(20);
+++	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, target);
+++	regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, target);
+++	msleep(200);
+++
+++	if (rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX,
+++			       RTL8365MB_D_SDS_REG_STATUS, &status))
+++		return;
+++
+++	if (status & RTL8365MB_D_SDS_STATUS_LINK) {
+++		dev_dbg(priv->dev, "SerDes latched after %u attempt(s)\n",
+++			mb->sds_relatch_tries + 1);
+++		return;
+++	}
+++
+++again:
+++	if (++mb->sds_relatch_tries >= RTL8365MB_D_SDS_RELATCH_TRIES) {
+++		dev_warn(priv->dev,
+++			 "SerDes did not latch, trunk will stay down\n");
+++		return;
+++	}
+++
+++	schedule_delayed_work(&mb->sds_relatch,
+++			      msecs_to_jiffies(RTL8365MB_D_SDS_RELATCH_INTERVAL_MS));
+++}
+++
++ static int rtl8365mb_setup(struct dsa_switch *ds)
++ {
++ 	struct realtek_priv *priv = ds->priv;
++@@ -3436,6 +3532,10 @@
++ 	/* Start statistics counter polling */
++ 	rtl8365mb_stats_setup(priv);
++ 
+++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+++		INIT_DELAYED_WORK(&mb->sds_relatch,
+++				  rtl8365mb_sds_relatch_work);
+++
++ 	return 0;
++ 
++ out_teardown_irq:
++@@ -3448,6 +3548,9 @@
++ static void rtl8365mb_teardown(struct dsa_switch *ds)
++ {
++ 	struct realtek_priv *priv = ds->priv;
+++	struct rtl8365mb *mb = priv->chip_data;
+++
+++	cancel_delayed_work_sync(&mb->sds_relatch);
++ 
++ 	rtl8365mb_stats_teardown(priv);
++ 	rtl8365mb_irq_teardown(priv);
+
+From 7b5e46e95fe9f5bd7ca2221d78a32466c9a11d43 Mon Sep 17 00:00:00 2001
+From: krics <krics@localhost>
+Date: Fri, 4 Sep 2026 23:03:48 +0300
+Subject: [PATCH 5/6] generic: rtl8365mb: trim 930-8, simplify 930-9
+
+Checked both of namiltd's suggestions on hardware.
+
+0x1D12 is not needed: dropping the writes changes nothing, and the
+register does not decode - it returns whatever background value is
+written, while 0x1D11 always answers. Removed from 930-8 along with the
+now-unused defines.
+
+Bit 9 is needed, but it is the existing MAC6_SEL_SDS0: 930-7 sets it with
+its own update_bits and the final one clears it again, so it has to be in
+that mask. Renamed, duplicate define dropped.
+
+930-9 now only adds the re-latch, without touching 930-8's code.
+
+Signed-off-by: krics <krics@localhost>
+---
+ ...365mb-fix-family-D-SerDes-trunk-link.patch | 67 +++-------------
+ ...l8365mb-re-latch-the-family-D-serdes.patch | 80 +++++++++----------
+ ...365mb-fix-family-D-SerDes-trunk-link.patch | 67 +++-------------
+ ...l8365mb-re-latch-the-family-D-serdes.patch | 80 +++++++++----------
+ 4 files changed, 102 insertions(+), 192 deletions(-)
+
+diff --git a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+index 2e1916d031faff..de54cad4c9b8fd 100644
+--- a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
++++ b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+@@ -1,81 +1,36 @@
+-From d12765de2bc16ea6d65112a91943ee706128f8f9 Mon Sep 17 00:00:00 2001
+ From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
+ Date: Thu, 3 Sep 2026 23:58:21 +0200
+-Subject: [PATCH] net: dsa: realtek: rtl8365mb: fix family D SerDes trunk link
++Subject: [PATCH] net: dsa: realtek: rtl8365mb: keep MAC6_SEL_SDS0 set on family D
+ 
+ On a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB) the trunk reports
+ 2.5Gbps/Full on both sides but moves no frames: the receiver never
+ asserts link (SDS 0x3d stays 0x0100 instead of 0x0111) and nothing
+ crosses in either direction, with no CRC, alignment or FIFO errors.
+ 
+-Compared against live stock firmware, two things are missing, both
+-inside pcs_config() for family D:
+-
+- - Bit 9 (0x0200) of SDS_MISC (0x1D11) is never set. Stock programs
+-   0x0E12 there; the driver only writes the PA enables and the mode
+-   field (0x0C12). Bit 9 is the forced-LINK bit, same position as the
+-   family C RTL8365MB_SDS_MISC_SGMII_LINK_MASK.
+-
+- - The companion register 0x1D12 is never written at all. Stock writes
+-   the same value to 0x1D11 and 0x1D12; programming only 0x1D11 leaves
+-   the receiver hunting.
+-
+-Since both registers get the same mask/value, compute misc_mask and
+-misc_val once and program both. The DISABLE -> HSGMII edge comes for
+-free from the reset defaults, so no extra toggle sequence is needed.
+-SDS1 (0x1D78) is intentionally not touched: it stays at its reset
+-value 0x001F, the vendor branch programming it applies to EXT_PORT1
+-only and this port runs through SDS0.
++MAC6_SEL_SDS0 (bit 9 of SDS_MISC, 0x1D11) is set earlier in pcs_config()
++with its own regmap_update_bits(), but the final update_bits at the end
++of the function uses a mask that does not cover it, so it is cleared
++again on the way out. Stock holds 0x0E12 there - the PA enables, the
++mode field and bit 9 - so add bit 9 to the mask and value that are
++written last.
+ 
+ Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
++[krics: dropped the 0x1D12 writes, that register does not decode; renamed
++ the bit-9 reference to the existing MAC6_SEL_SDS0 define]
+ ---
+- drivers/net/dsa/realtek/rtl8365mb_main.c | 21 +++++++++++++++++++--
+- 1 file changed, 19 insertions(+), 2 deletions(-)
+-
+-diff --git a/drivers/net/dsa/realtek/rtl8365mb_main.c b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-index b1e46c7..e0c1893 100644
+ --- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+ +++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-@@ -284,6 +284,11 @@
+- #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
+- #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
+- 
+-+#define RTL8365MB_D_REG_SDS_MISC2			0x1D12
+-+
+-+/* Forced-LINK bit, same position as RTL8365MB_SDS_MISC_SGMII_LINK_MASK */
+-+#define RTL8365MB_D_SDS_MISC_LINK_MASK			0x0200
+-+
+- /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
+-  * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
+-  * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
+ @@ -1522,9 +1527,11 @@ static int rtl8365mb_pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
+  
+  		misc_mask = RTL8365MB_D_SDS_MISC_PA33PC_EN |
+  			    RTL8365MB_D_SDS_MISC_PA12PC_EN |
+ -			    RTL8365MB_D_SDS_MISC_MODE_MASK;
+ +			    RTL8365MB_D_SDS_MISC_MODE_MASK |
+-+			    RTL8365MB_D_SDS_MISC_LINK_MASK;
+++			    RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0;
+  		misc_val  = RTL8365MB_D_SDS_MISC_PA33PC_EN |
+ -			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode;
+ +			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode |
+-+			    RTL8365MB_D_SDS_MISC_LINK_MASK;
+++			    RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0;
+  	} else {
+  		/* Mux the SerDes to MAC8 in the requested mode */
+  		misc_mask = RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK |
+-@@ -1539,6 +1546,16 @@ static int rtl8365mb_pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
+- 	if (ret)
+- 		return ret;
+- 
+-+	/* Stock programs the companion register 0x1D12 with the same value;
+-+	 * programming 0x1D11 alone leaves the receiver hunting.
+-+	 */
+-+	if (is_d) {
+-+		ret = regmap_update_bits(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+-+					 misc_mask, misc_val);
+-+		if (ret)
+-+			return ret;
+-+	}
+-+
+- 	if (!is_d) {
+- 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
+- 		ret = regmap_update_bits(priv->map,
+diff --git a/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+index 8391131900c7a4..2aa886e4c8a010 100644
+--- a/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
++++ b/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+@@ -1,14 +1,14 @@
+ From: krics <krics@localhost>
+-Date: Fri, 4 Sep 2026 15:30:00 +0200
+-Subject: [PATCH 9/9] net: dsa: realtek: rtl8365mb: re-latch the family D SerDes
++Date: Fri, 4 Sep 2026 23:00:00 +0200
++Subject: [PATCH] net: dsa: realtek: rtl8365mb: re-latch the family D SerDes
+ 
+ With 930-8 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB)
+ still moves no frames: link is reported at 2.5Gbps/Full on both sides,
+ the CPU MAC transmits, and s00_p06_ifInOctets and mmc_rx_framecount_gb
+ both stay at zero, with no CRC, alignment or FIFO errors.
+ 
+-The receiver latches on the DISABLE -> HSGMII edge rather than on the
+-value in SDS_MISC, and only once the UNIPHY on the SoC side has finished
++The receiver latches on the DISABLE -> HSGMII edge in SDS_MISC rather
++than on the value, and only once the UNIPHY on the SoC side has finished
+ its own bring-up. Neither is satisfied where the mode is programmed:
+ 
+   - The edge does not happen. By the time pcs_config() runs the mode
+@@ -23,34 +23,39 @@ its own bring-up. Neither is satisfied where the mode is programmed:
+ Driving it later does work. Timing a workqueue against boot: at 25 s, 8 s
+ and 3 s it latches on the first attempt, while with no delay the mode
+ field still reads 0x021F because pcs_config() has not run yet. So kick
+-the work from mac_link_up(), which is the last callback in the chain, and
+-redo the edge until SDS 0x3D reports link. Here it takes three attempts,
+-latching around 10 s into boot, reproducibly across reboots.
++the work from mac_link_up(), the last callback in the chain, and redo the
++edge until SDS 0x3D reports link. Here it takes three attempts, latching
++around 10 s into boot, reproducibly across reboots.
+ 
+ Retries are capped so a board where this never latches does not spin
+ forever, and the work is cancelled in teardown().
+ 
+-What changes between a failing and a succeeding attempt is still unknown
+-to me - something on the SoC side finishing its bring-up is the obvious
+-guess, but nothing I can read in the UNIPHY registers differs between the
+-two. A driver-side event to key off would be better than the poll.
++Two caveats. SDS 0x3D bit 4 turned out to be a weak health indicator: in
++runs where the trunk carried nothing it still came up, so the loop can
++stop early on a link that does not work. And what changes between a
++failing and a succeeding attempt is unknown to me - something on the SoC
++side finishing its bring-up is the obvious guess, but nothing I can read
++in the UNIPHY registers differs between the two. A driver-side event to
++key off would be better than the poll.
+ 
+ Signed-off-by: krics <krics@localhost>
+ ---
+ --- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+ +++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-@@ -286,6 +286,10 @@
+- 
+- #define RTL8365MB_D_REG_SDS_MISC2			0x1D12
++@@ -284,6 +284,12 @@
++ #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
++ #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
+  
+++
+ +/* SerDes status register, reached through the SDS_INDACS window */
+ +#define RTL8365MB_D_SDS_REG_STATUS			0x3D
+ +#define   RTL8365MB_D_SDS_STATUS_LINK			0x0010
+ +
+- /* Forced-LINK bit, same position as RTL8365MB_SDS_MISC_SGMII_LINK_MASK */
+- #define RTL8365MB_D_SDS_MISC_LINK_MASK			0x0200
+- 
+-@@ -934,6 +938,8 @@
+++
++ /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
++  * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
++  * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
++@@ -929,6 +935,8 @@
+  	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
+  	struct phylink_pcs pcs;
+  	bool sds_supported;
+@@ -59,18 +64,18 @@ Signed-off-by: krics <krics@localhost>
+  };
+  
+  #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
+-@@ -1548,10 +1554,31 @@
++@@ -1541,6 +1549,30 @@
++ 	if (ret)
++ 		return ret;
+  
+- 	/* Stock programs the companion register 0x1D12 with the same value;
+- 	 * programming 0x1D11 alone leaves the receiver hunting.
+++	/* Stock programs the companion register 0x1D12 with the same value;
+++	 * programming 0x1D11 alone leaves the receiver hunting.
+ +	 *
+ +	 * The receiver latches on the DISABLE -> HSGMII edge rather than on
+ +	 * the value, so park the mode field first: regmap_update_bits() is a
+ +	 * no-op when the register already holds the target value.
+- 	 */
+- 	if (is_d) {
+--		ret = regmap_update_bits(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+--					 misc_mask, misc_val);
+++	 */
+++	if (is_d) {
+ +		u32 park = (misc_val & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
+ +			   RTL8365MB_D_PORT_SDS_MODE_DISABLE;
+ +
+@@ -78,9 +83,6 @@ Signed-off-by: krics <krics@localhost>
+ +		if (ret)
+ +			return ret;
+ +
+-+		ret = regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, park);
+-+		if (ret)
+-+			return ret;
+ +
+ +		usleep_range(20000, 25000);
+ +
+@@ -88,12 +90,12 @@ Signed-off-by: krics <krics@localhost>
+ +		if (ret)
+ +			return ret;
+ +
+-+		ret = regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+-+				   misc_val);
+- 		if (ret)
+- 			return ret;
+- 	}
+-@@ -1714,6 +1741,10 @@
+++	}
+++
++ 	if (!is_d) {
++ 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
++ 		ret = regmap_update_bits(priv->map,
++@@ -1699,6 +1731,10 @@
+  
+  	/* Family D forces the external MAC ability from mac_link_up(); its
+  	 * SDS_MISC fields do not share the family C link-force layout.
+@@ -104,7 +106,7 @@ Signed-off-by: krics <krics@localhost>
+  	 */
+  	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+  		return;
+-@@ -2023,6 +2054,12 @@
++@@ -2008,6 +2044,12 @@
+  			return;
+  		}
+  
+@@ -117,7 +119,7 @@ Signed-off-by: krics <krics@localhost>
+  		/* The SerDes has its own pause enables; program them from
+  		 * the resolved pause modes, as the vendor driver does when
+  		 * forcing the link on a SerDes external interface. These
+-@@ -3248,6 +3285,65 @@
++@@ -3233,6 +3275,63 @@
+  	return 0;
+  }
+  
+@@ -153,10 +155,8 @@ Signed-off-by: krics <krics@localhost>
+ +	       RTL8365MB_D_PORT_SDS_MODE_DISABLE;
+ +
+ +	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, park);
+-+	regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, park);
+ +	msleep(20);
+ +	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, target);
+-+	regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, target);
+ +	msleep(200);
+ +
+ +	if (rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX,
+@@ -183,7 +183,7 @@ Signed-off-by: krics <krics@localhost>
+  static int rtl8365mb_setup(struct dsa_switch *ds)
+  {
+  	struct realtek_priv *priv = ds->priv;
+-@@ -3436,6 +3532,10 @@
++@@ -3421,6 +3520,10 @@
+  	/* Start statistics counter polling */
+  	rtl8365mb_stats_setup(priv);
+  
+@@ -194,7 +194,7 @@ Signed-off-by: krics <krics@localhost>
+  	return 0;
+  
+  out_teardown_irq:
+-@@ -3448,6 +3548,9 @@
++@@ -3433,6 +3536,9 @@
+  static void rtl8365mb_teardown(struct dsa_switch *ds)
+  {
+  	struct realtek_priv *priv = ds->priv;
+diff --git a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+index 2e1916d031faff..de54cad4c9b8fd 100644
+--- a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
++++ b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+@@ -1,81 +1,36 @@
+-From d12765de2bc16ea6d65112a91943ee706128f8f9 Mon Sep 17 00:00:00 2001
+ From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
+ Date: Thu, 3 Sep 2026 23:58:21 +0200
+-Subject: [PATCH] net: dsa: realtek: rtl8365mb: fix family D SerDes trunk link
++Subject: [PATCH] net: dsa: realtek: rtl8365mb: keep MAC6_SEL_SDS0 set on family D
+ 
+ On a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB) the trunk reports
+ 2.5Gbps/Full on both sides but moves no frames: the receiver never
+ asserts link (SDS 0x3d stays 0x0100 instead of 0x0111) and nothing
+ crosses in either direction, with no CRC, alignment or FIFO errors.
+ 
+-Compared against live stock firmware, two things are missing, both
+-inside pcs_config() for family D:
+-
+- - Bit 9 (0x0200) of SDS_MISC (0x1D11) is never set. Stock programs
+-   0x0E12 there; the driver only writes the PA enables and the mode
+-   field (0x0C12). Bit 9 is the forced-LINK bit, same position as the
+-   family C RTL8365MB_SDS_MISC_SGMII_LINK_MASK.
+-
+- - The companion register 0x1D12 is never written at all. Stock writes
+-   the same value to 0x1D11 and 0x1D12; programming only 0x1D11 leaves
+-   the receiver hunting.
+-
+-Since both registers get the same mask/value, compute misc_mask and
+-misc_val once and program both. The DISABLE -> HSGMII edge comes for
+-free from the reset defaults, so no extra toggle sequence is needed.
+-SDS1 (0x1D78) is intentionally not touched: it stays at its reset
+-value 0x001F, the vendor branch programming it applies to EXT_PORT1
+-only and this port runs through SDS0.
++MAC6_SEL_SDS0 (bit 9 of SDS_MISC, 0x1D11) is set earlier in pcs_config()
++with its own regmap_update_bits(), but the final update_bits at the end
++of the function uses a mask that does not cover it, so it is cleared
++again on the way out. Stock holds 0x0E12 there - the PA enables, the
++mode field and bit 9 - so add bit 9 to the mask and value that are
++written last.
+ 
+ Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
++[krics: dropped the 0x1D12 writes, that register does not decode; renamed
++ the bit-9 reference to the existing MAC6_SEL_SDS0 define]
+ ---
+- drivers/net/dsa/realtek/rtl8365mb_main.c | 21 +++++++++++++++++++--
+- 1 file changed, 19 insertions(+), 2 deletions(-)
+-
+-diff --git a/drivers/net/dsa/realtek/rtl8365mb_main.c b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-index b1e46c7..e0c1893 100644
+ --- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+ +++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-@@ -284,6 +284,11 @@
+- #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
+- #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
+- 
+-+#define RTL8365MB_D_REG_SDS_MISC2			0x1D12
+-+
+-+/* Forced-LINK bit, same position as RTL8365MB_SDS_MISC_SGMII_LINK_MASK */
+-+#define RTL8365MB_D_SDS_MISC_LINK_MASK			0x0200
+-+
+- /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
+-  * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
+-  * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
+ @@ -1522,9 +1527,11 @@ static int rtl8365mb_pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
+  
+  		misc_mask = RTL8365MB_D_SDS_MISC_PA33PC_EN |
+  			    RTL8365MB_D_SDS_MISC_PA12PC_EN |
+ -			    RTL8365MB_D_SDS_MISC_MODE_MASK;
+ +			    RTL8365MB_D_SDS_MISC_MODE_MASK |
+-+			    RTL8365MB_D_SDS_MISC_LINK_MASK;
+++			    RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0;
+  		misc_val  = RTL8365MB_D_SDS_MISC_PA33PC_EN |
+ -			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode;
+ +			    RTL8365MB_D_SDS_MISC_PA12PC_EN | sds_mode |
+-+			    RTL8365MB_D_SDS_MISC_LINK_MASK;
+++			    RTL8365MB_D_SDS_MISC_MAC6_SEL_SDS0;
+  	} else {
+  		/* Mux the SerDes to MAC8 in the requested mode */
+  		misc_mask = RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK |
+-@@ -1539,6 +1546,16 @@ static int rtl8365mb_pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
+- 	if (ret)
+- 		return ret;
+- 
+-+	/* Stock programs the companion register 0x1D12 with the same value;
+-+	 * programming 0x1D11 alone leaves the receiver hunting.
+-+	 */
+-+	if (is_d) {
+-+		ret = regmap_update_bits(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+-+					 misc_mask, misc_val);
+-+		if (ret)
+-+			return ret;
+-+	}
+-+
+- 	if (!is_d) {
+- 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
+- 		ret = regmap_update_bits(priv->map,
+diff --git a/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+index 8391131900c7a4..2aa886e4c8a010 100644
+--- a/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
++++ b/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+@@ -1,14 +1,14 @@
+ From: krics <krics@localhost>
+-Date: Fri, 4 Sep 2026 15:30:00 +0200
+-Subject: [PATCH 9/9] net: dsa: realtek: rtl8365mb: re-latch the family D SerDes
++Date: Fri, 4 Sep 2026 23:00:00 +0200
++Subject: [PATCH] net: dsa: realtek: rtl8365mb: re-latch the family D SerDes
+ 
+ With 930-8 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB)
+ still moves no frames: link is reported at 2.5Gbps/Full on both sides,
+ the CPU MAC transmits, and s00_p06_ifInOctets and mmc_rx_framecount_gb
+ both stay at zero, with no CRC, alignment or FIFO errors.
+ 
+-The receiver latches on the DISABLE -> HSGMII edge rather than on the
+-value in SDS_MISC, and only once the UNIPHY on the SoC side has finished
++The receiver latches on the DISABLE -> HSGMII edge in SDS_MISC rather
++than on the value, and only once the UNIPHY on the SoC side has finished
+ its own bring-up. Neither is satisfied where the mode is programmed:
+ 
+   - The edge does not happen. By the time pcs_config() runs the mode
+@@ -23,34 +23,39 @@ its own bring-up. Neither is satisfied where the mode is programmed:
+ Driving it later does work. Timing a workqueue against boot: at 25 s, 8 s
+ and 3 s it latches on the first attempt, while with no delay the mode
+ field still reads 0x021F because pcs_config() has not run yet. So kick
+-the work from mac_link_up(), which is the last callback in the chain, and
+-redo the edge until SDS 0x3D reports link. Here it takes three attempts,
+-latching around 10 s into boot, reproducibly across reboots.
++the work from mac_link_up(), the last callback in the chain, and redo the
++edge until SDS 0x3D reports link. Here it takes three attempts, latching
++around 10 s into boot, reproducibly across reboots.
+ 
+ Retries are capped so a board where this never latches does not spin
+ forever, and the work is cancelled in teardown().
+ 
+-What changes between a failing and a succeeding attempt is still unknown
+-to me - something on the SoC side finishing its bring-up is the obvious
+-guess, but nothing I can read in the UNIPHY registers differs between the
+-two. A driver-side event to key off would be better than the poll.
++Two caveats. SDS 0x3D bit 4 turned out to be a weak health indicator: in
++runs where the trunk carried nothing it still came up, so the loop can
++stop early on a link that does not work. And what changes between a
++failing and a succeeding attempt is unknown to me - something on the SoC
++side finishing its bring-up is the obvious guess, but nothing I can read
++in the UNIPHY registers differs between the two. A driver-side event to
++key off would be better than the poll.
+ 
+ Signed-off-by: krics <krics@localhost>
+ ---
+ --- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+ +++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-@@ -286,6 +286,10 @@
+- 
+- #define RTL8365MB_D_REG_SDS_MISC2			0x1D12
++@@ -284,6 +284,12 @@
++ #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
++ #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
+  
+++
+ +/* SerDes status register, reached through the SDS_INDACS window */
+ +#define RTL8365MB_D_SDS_REG_STATUS			0x3D
+ +#define   RTL8365MB_D_SDS_STATUS_LINK			0x0010
+ +
+- /* Forced-LINK bit, same position as RTL8365MB_SDS_MISC_SGMII_LINK_MASK */
+- #define RTL8365MB_D_SDS_MISC_LINK_MASK			0x0200
+- 
+-@@ -934,6 +938,8 @@
+++
++ /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
++  * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
++  * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
++@@ -929,6 +935,8 @@
+  	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
+  	struct phylink_pcs pcs;
+  	bool sds_supported;
+@@ -59,18 +64,18 @@ Signed-off-by: krics <krics@localhost>
+  };
+  
+  #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
+-@@ -1548,10 +1554,31 @@
++@@ -1541,6 +1549,30 @@
++ 	if (ret)
++ 		return ret;
+  
+- 	/* Stock programs the companion register 0x1D12 with the same value;
+- 	 * programming 0x1D11 alone leaves the receiver hunting.
+++	/* Stock programs the companion register 0x1D12 with the same value;
+++	 * programming 0x1D11 alone leaves the receiver hunting.
+ +	 *
+ +	 * The receiver latches on the DISABLE -> HSGMII edge rather than on
+ +	 * the value, so park the mode field first: regmap_update_bits() is a
+ +	 * no-op when the register already holds the target value.
+- 	 */
+- 	if (is_d) {
+--		ret = regmap_update_bits(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+--					 misc_mask, misc_val);
+++	 */
+++	if (is_d) {
+ +		u32 park = (misc_val & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
+ +			   RTL8365MB_D_PORT_SDS_MODE_DISABLE;
+ +
+@@ -78,9 +83,6 @@ Signed-off-by: krics <krics@localhost>
+ +		if (ret)
+ +			return ret;
+ +
+-+		ret = regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, park);
+-+		if (ret)
+-+			return ret;
+ +
+ +		usleep_range(20000, 25000);
+ +
+@@ -88,12 +90,12 @@ Signed-off-by: krics <krics@localhost>
+ +		if (ret)
+ +			return ret;
+ +
+-+		ret = regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2,
+-+				   misc_val);
+- 		if (ret)
+- 			return ret;
+- 	}
+-@@ -1714,6 +1741,10 @@
+++	}
+++
++ 	if (!is_d) {
++ 		val = sds_mode << RTL8365MB_DIGITAL_INTERFACE_SELECT_MODE_OFFSET(id);
++ 		ret = regmap_update_bits(priv->map,
++@@ -1699,6 +1731,10 @@
+  
+  	/* Family D forces the external MAC ability from mac_link_up(); its
+  	 * SDS_MISC fields do not share the family C link-force layout.
+@@ -104,7 +106,7 @@ Signed-off-by: krics <krics@localhost>
+  	 */
+  	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+  		return;
+-@@ -2023,6 +2054,12 @@
++@@ -2008,6 +2044,12 @@
+  			return;
+  		}
+  
+@@ -117,7 +119,7 @@ Signed-off-by: krics <krics@localhost>
+  		/* The SerDes has its own pause enables; program them from
+  		 * the resolved pause modes, as the vendor driver does when
+  		 * forcing the link on a SerDes external interface. These
+-@@ -3248,6 +3285,65 @@
++@@ -3233,6 +3275,63 @@
+  	return 0;
+  }
+  
+@@ -153,10 +155,8 @@ Signed-off-by: krics <krics@localhost>
+ +	       RTL8365MB_D_PORT_SDS_MODE_DISABLE;
+ +
+ +	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, park);
+-+	regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, park);
+ +	msleep(20);
+ +	regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, target);
+-+	regmap_write(priv->map, RTL8365MB_D_REG_SDS_MISC2, target);
+ +	msleep(200);
+ +
+ +	if (rtl8365mb_sds_read(priv, RTL8365MB_D_SDS_EXT0_INDEX,
+@@ -183,7 +183,7 @@ Signed-off-by: krics <krics@localhost>
+  static int rtl8365mb_setup(struct dsa_switch *ds)
+  {
+  	struct realtek_priv *priv = ds->priv;
+-@@ -3436,6 +3532,10 @@
++@@ -3421,6 +3520,10 @@
+  	/* Start statistics counter polling */
+  	rtl8365mb_stats_setup(priv);
+  
+@@ -194,7 +194,7 @@ Signed-off-by: krics <krics@localhost>
+  	return 0;
+  
+  out_teardown_irq:
+-@@ -3448,6 +3548,9 @@
++@@ -3433,6 +3536,9 @@
+  static void rtl8365mb_teardown(struct dsa_switch *ds)
+  {
+  	struct realtek_priv *priv = ds->priv;
+
+From 2ee2a1e0462eac162d452e5061d9a9b2f123f0ee Mon Sep 17 00:00:00 2001
+From: krics <krics@localhost>
+Date: Fri, 4 Sep 2026 23:58:14 +0300
+Subject: [PATCH 6/6] generic: rtl8365mb: address review
+
+0x1D12 dropped from 930-8 - the register does not decode, and removing
+the writes changes nothing. Bit 9 renamed to the existing MAC6_SEL_SDS0.
+
+930-9: teardown guarded by family, INIT_DELAYED_WORK moved to where mb
+becomes available, leftover module parameter removed, stale comment
+dropped, and the retry budget is only reset on a real link event - an
+attempt parks the mode for 20 ms and could otherwise re-arm itself
+through mac_link_up() indefinitely.
+
+Signed-off-by: krics <krics@localhost>
+---
+ ...365mb-fix-family-D-SerDes-trunk-link.patch | 20 +++--
+ ...l8365mb-re-latch-the-family-D-serdes.patch | 81 ++++++++++---------
+ ...365mb-fix-family-D-SerDes-trunk-link.patch | 20 +++--
+ ...l8365mb-re-latch-the-family-D-serdes.patch | 81 ++++++++++---------
+ 4 files changed, 116 insertions(+), 86 deletions(-)
+
+diff --git a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+index de54cad4c9b8fd..dfea5cc16372d8 100644
+--- a/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
++++ b/target/linux/generic/pending-6.12/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+@@ -3,20 +3,26 @@ Date: Thu, 3 Sep 2026 23:58:21 +0200
+ Subject: [PATCH] net: dsa: realtek: rtl8365mb: keep MAC6_SEL_SDS0 set on family D
+ 
+ On a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB) the trunk reports
+-2.5Gbps/Full on both sides but moves no frames: the receiver never
+-asserts link (SDS 0x3d stays 0x0100 instead of 0x0111) and nothing
+-crosses in either direction, with no CRC, alignment or FIFO errors.
++2.5Gbps/Full on both sides but moves no frames: mmc_rx_framecount_gb and
++s00_p06_ifInOctets both stay at zero, with no CRC, alignment or FIFO
++errors anywhere.
+ 
+ MAC6_SEL_SDS0 (bit 9 of SDS_MISC, 0x1D11) is set earlier in pcs_config()
+ with its own regmap_update_bits(), but the final update_bits at the end
+ of the function uses a mask that does not cover it, so it is cleared
+ again on the way out. Stock holds 0x0E12 there - the PA enables, the
+-mode field and bit 9 - so add bit 9 to the mask and value that are
+-written last.
++mode field and bit 9 - so add bit 9 to the mask and value written last.
++
++Note that the following patch programs SDS_MISC with a full write rather
++than update_bits, which makes the mask here matter only for the
++intermediate state. Both are kept so each patch stands on its own.
+ 
+ Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
+-[krics: dropped the 0x1D12 writes, that register does not decode; renamed
+- the bit-9 reference to the existing MAC6_SEL_SDS0 define]
++[krics: dropped the 0x1D12 writes, that register does not decode - it
++ reads back whatever background value was written to it while 0x1D11
++ always answers; renamed the bit-9 reference to the existing
++ MAC6_SEL_SDS0 define and dropped the duplicate; reworded the symptom,
++ SDS 0x3D bit 4 does come up on a trunk that carries nothing]
+ ---
+ --- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+ +++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+diff --git a/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+index 2aa886e4c8a010..6d9e05efd9d795 100644
+--- a/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
++++ b/target/linux/generic/pending-6.12/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+@@ -1,11 +1,11 @@
+ From: krics <krics@localhost>
+-Date: Fri, 4 Sep 2026 23:00:00 +0200
++Date: Fri, 4 Sep 2026 23:30:00 +0200
+ Subject: [PATCH] net: dsa: realtek: rtl8365mb: re-latch the family D SerDes
+ 
+-With 930-8 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB)
+-still moves no frames: link is reported at 2.5Gbps/Full on both sides,
+-the CPU MAC transmits, and s00_p06_ifInOctets and mmc_rx_framecount_gb
+-both stay at zero, with no CRC, alignment or FIFO errors.
++With the previous patch the trunk on a TP-Link Archer AX55 v1 (IPQ5018 +
++RTL8367S-VB) still moves no frames: link is reported at 2.5Gbps/Full on
++both sides, the CPU MAC transmits, and s00_p06_ifInOctets and
++mmc_rx_framecount_gb both stay at zero.
+ 
+ The receiver latches on the DISABLE -> HSGMII edge in SDS_MISC rather
+ than on the value, and only once the UNIPHY on the SoC side has finished
+@@ -28,21 +28,23 @@ edge until SDS 0x3D reports link. Here it takes three attempts, latching
+ around 10 s into boot, reproducibly across reboots.
+ 
+ Retries are capped so a board where this never latches does not spin
+-forever, and the work is cancelled in teardown().
++forever. The work is cancelled in teardown(), and again from
++mac_link_up() before the counter is reset, since a flapping link re-arms
++the sequence while an attempt may still be sleeping inside it.
+ 
+-Two caveats. SDS 0x3D bit 4 turned out to be a weak health indicator: in
+-runs where the trunk carried nothing it still came up, so the loop can
+-stop early on a link that does not work. And what changes between a
+-failing and a succeeding attempt is unknown to me - something on the SoC
+-side finishing its bring-up is the obvious guess, but nothing I can read
+-in the UNIPHY registers differs between the two. A driver-side event to
+-key off would be better than the poll.
++Two caveats. SDS 0x3D bit 4 is a weak health indicator: in runs where the
++trunk carried nothing it still came up, so the loop can stop early on a
++link that does not work. And what changes between a failing and a
++succeeding attempt is unknown to me - something on the SoC side finishing
++its bring-up is the obvious guess, but nothing I can read in the UNIPHY
++registers differs between the two. A driver-side event to key off would
++be better than the poll.
+ 
+ Signed-off-by: krics <krics@localhost>
+ ---
+ --- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+ +++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-@@ -284,6 +284,12 @@
++@@ -284,6 +284,11 @@
+  #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
+  #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
+  
+@@ -50,12 +52,11 @@ Signed-off-by: krics <krics@localhost>
+ +/* SerDes status register, reached through the SDS_INDACS window */
+ +#define RTL8365MB_D_SDS_REG_STATUS			0x3D
+ +#define   RTL8365MB_D_SDS_STATUS_LINK			0x0010
+-+
+ +
+  /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
+   * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
+   * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
+-@@ -929,6 +935,8 @@
++@@ -929,6 +934,8 @@
+  	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
+  	struct phylink_pcs pcs;
+  	bool sds_supported;
+@@ -64,16 +65,18 @@ Signed-off-by: krics <krics@localhost>
+  };
+  
+  #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
+-@@ -1541,6 +1549,30 @@
++@@ -1541,6 +1548,31 @@
+  	if (ret)
+  		return ret;
+  
+-+	/* Stock programs the companion register 0x1D12 with the same value;
+-+	 * programming 0x1D11 alone leaves the receiver hunting.
+-+	 *
+-+	 * The receiver latches on the DISABLE -> HSGMII edge rather than on
+++	/* The receiver latches on the DISABLE -> HSGMII edge rather than on
+ +	 * the value, so park the mode field first: regmap_update_bits() is a
+ +	 * no-op when the register already holds the target value.
+++	 *
+++	 * These are full writes rather than update_bits: misc_val carries
+++	 * every field of SDS_MISC that matters here (the PA enables,
+++	 * MAC6_SEL_SDS0 and the mode), and comes out as 0x0E12 - the same
+++	 * value the stock firmware holds with the trunk up.
+ +	 */
+ +	if (is_d) {
+ +		u32 park = (misc_val & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
+@@ -83,7 +86,6 @@ Signed-off-by: krics <krics@localhost>
+ +		if (ret)
+ +			return ret;
+ +
+-+
+ +		usleep_range(20000, 25000);
+ +
+ +		ret = regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, misc_val);
+@@ -106,26 +108,32 @@ Signed-off-by: krics <krics@localhost>
+  	 */
+  	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+  		return;
+-@@ -2008,6 +2044,12 @@
++@@ -2008,6 +2044,21 @@
+  			return;
+  		}
+  
+++		/* The work sleeps inside the sequence, so stop an attempt
+++		 * still in flight before re-arming. Only a genuinely new
+++		 * link event resets the budget: re-arming mid-attempt would
+++		 * let a flapping link defeat the retry cap entirely, and the
+++		 * attempt itself parks the mode for 20 ms, which can be what
+++		 * makes the link flap in the first place.
+++		 */
+ +		if (rtl8365mb_interface_is_serdes(interface) &&
+ +		    rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
+-+			mb->sds_relatch_tries = 0;
+++			if (!cancel_delayed_work_sync(&mb->sds_relatch))
+++				mb->sds_relatch_tries = 0;
+++
+ +			schedule_delayed_work(&mb->sds_relatch, 0);
+ +		}
+ +
+  		/* The SerDes has its own pause enables; program them from
+  		 * the resolved pause modes, as the vendor driver does when
+  		 * forcing the link on a SerDes external interface. These
+-@@ -3233,6 +3275,63 @@
++@@ -3233,6 +3284,60 @@
+  	return 0;
+  }
+  
+-+static unsigned int relatch_ms = 0;
+-+module_param(relatch_ms, uint, 0644);
+-+
+ +/* The family D receiver latches on a DISABLE -> HSGMII edge rather than on
+ + * the value in SDS_MISC, and only once the UNIPHY on the SoC side has
+ + * finished its own bring-up. Both pcs_config() and pcs_link_up() run before
+@@ -183,24 +191,25 @@ Signed-off-by: krics <krics@localhost>
+  static int rtl8365mb_setup(struct dsa_switch *ds)
+  {
+  	struct realtek_priv *priv = ds->priv;
+-@@ -3421,6 +3520,10 @@
+- 	/* Start statistics counter polling */
+- 	rtl8365mb_stats_setup(priv);
++@@ -3254,6 +3359,10 @@
++ 	 */
++ 	mb->pcs.poll = true;
+  
+ +	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+ +		INIT_DELAYED_WORK(&mb->sds_relatch,
+ +				  rtl8365mb_sds_relatch_work);
+ +
+- 	return 0;
+- 
+- out_teardown_irq:
+-@@ -3433,6 +3536,9 @@
++ 	ret = rtl8365mb_reset_chip(priv);
++ 	if (ret) {
++ 		dev_err(priv->dev, "failed to reset chip: %pe\n",
++@@ -3433,6 +3542,10 @@
+  static void rtl8365mb_teardown(struct dsa_switch *ds)
+  {
+  	struct realtek_priv *priv = ds->priv;
+ +	struct rtl8365mb *mb = priv->chip_data;
+ +
+-+	cancel_delayed_work_sync(&mb->sds_relatch);
+++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+++		cancel_delayed_work_sync(&mb->sds_relatch);
+  
+  	rtl8365mb_stats_teardown(priv);
+  	rtl8365mb_irq_teardown(priv);
+diff --git a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+index de54cad4c9b8fd..dfea5cc16372d8 100644
+--- a/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
++++ b/target/linux/generic/pending-6.18/930-8-net-dsa-realtek-rtl8365mb-fix-family-D-SerDes-trunk-link.patch
+@@ -3,20 +3,26 @@ Date: Thu, 3 Sep 2026 23:58:21 +0200
+ Subject: [PATCH] net: dsa: realtek: rtl8365mb: keep MAC6_SEL_SDS0 set on family D
+ 
+ On a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB) the trunk reports
+-2.5Gbps/Full on both sides but moves no frames: the receiver never
+-asserts link (SDS 0x3d stays 0x0100 instead of 0x0111) and nothing
+-crosses in either direction, with no CRC, alignment or FIFO errors.
++2.5Gbps/Full on both sides but moves no frames: mmc_rx_framecount_gb and
++s00_p06_ifInOctets both stay at zero, with no CRC, alignment or FIFO
++errors anywhere.
+ 
+ MAC6_SEL_SDS0 (bit 9 of SDS_MISC, 0x1D11) is set earlier in pcs_config()
+ with its own regmap_update_bits(), but the final update_bits at the end
+ of the function uses a mask that does not cover it, so it is cleared
+ again on the way out. Stock holds 0x0E12 there - the PA enables, the
+-mode field and bit 9 - so add bit 9 to the mask and value that are
+-written last.
++mode field and bit 9 - so add bit 9 to the mask and value written last.
++
++Note that the following patch programs SDS_MISC with a full write rather
++than update_bits, which makes the mask here matter only for the
++intermediate state. Both are kept so each patch stands on its own.
+ 
+ Signed-off-by: Mieczyslaw Nalewaj <namiltd@yahoo.com>
+-[krics: dropped the 0x1D12 writes, that register does not decode; renamed
+- the bit-9 reference to the existing MAC6_SEL_SDS0 define]
++[krics: dropped the 0x1D12 writes, that register does not decode - it
++ reads back whatever background value was written to it while 0x1D11
++ always answers; renamed the bit-9 reference to the existing
++ MAC6_SEL_SDS0 define and dropped the duplicate; reworded the symptom,
++ SDS 0x3D bit 4 does come up on a trunk that carries nothing]
+ ---
+ --- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+ +++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+diff --git a/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch b/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+index 2aa886e4c8a010..6d9e05efd9d795 100644
+--- a/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
++++ b/target/linux/generic/pending-6.18/930-9-net-dsa-realtek-rtl8365mb-re-latch-the-family-D-serdes.patch
+@@ -1,11 +1,11 @@
+ From: krics <krics@localhost>
+-Date: Fri, 4 Sep 2026 23:00:00 +0200
++Date: Fri, 4 Sep 2026 23:30:00 +0200
+ Subject: [PATCH] net: dsa: realtek: rtl8365mb: re-latch the family D SerDes
+ 
+-With 930-8 the trunk on a TP-Link Archer AX55 v1 (IPQ5018 + RTL8367S-VB)
+-still moves no frames: link is reported at 2.5Gbps/Full on both sides,
+-the CPU MAC transmits, and s00_p06_ifInOctets and mmc_rx_framecount_gb
+-both stay at zero, with no CRC, alignment or FIFO errors.
++With the previous patch the trunk on a TP-Link Archer AX55 v1 (IPQ5018 +
++RTL8367S-VB) still moves no frames: link is reported at 2.5Gbps/Full on
++both sides, the CPU MAC transmits, and s00_p06_ifInOctets and
++mmc_rx_framecount_gb both stay at zero.
+ 
+ The receiver latches on the DISABLE -> HSGMII edge in SDS_MISC rather
+ than on the value, and only once the UNIPHY on the SoC side has finished
+@@ -28,21 +28,23 @@ edge until SDS 0x3D reports link. Here it takes three attempts, latching
+ around 10 s into boot, reproducibly across reboots.
+ 
+ Retries are capped so a board where this never latches does not spin
+-forever, and the work is cancelled in teardown().
++forever. The work is cancelled in teardown(), and again from
++mac_link_up() before the counter is reset, since a flapping link re-arms
++the sequence while an attempt may still be sleeping inside it.
+ 
+-Two caveats. SDS 0x3D bit 4 turned out to be a weak health indicator: in
+-runs where the trunk carried nothing it still came up, so the loop can
+-stop early on a link that does not work. And what changes between a
+-failing and a succeeding attempt is unknown to me - something on the SoC
+-side finishing its bring-up is the obvious guess, but nothing I can read
+-in the UNIPHY registers differs between the two. A driver-side event to
+-key off would be better than the poll.
++Two caveats. SDS 0x3D bit 4 is a weak health indicator: in runs where the
++trunk carried nothing it still came up, so the loop can stop early on a
++link that does not work. And what changes between a failing and a
++succeeding attempt is unknown to me - something on the SoC side finishing
++its bring-up is the obvious guess, but nothing I can read in the UNIPHY
++registers differs between the two. A driver-side event to key off would
++be better than the poll.
+ 
+ Signed-off-by: krics <krics@localhost>
+ ---
+ --- a/drivers/net/dsa/realtek/rtl8365mb_main.c
+ +++ b/drivers/net/dsa/realtek/rtl8365mb_main.c
+-@@ -284,6 +284,12 @@
++@@ -284,6 +284,11 @@
+  #define   RTL8365MB_SDS_MISC_SGMII_SPD_MASK		0x0180
+  #define   RTL8365MB_SDS_MISC_MAC8_SEL_SGMII_MASK	0x0040
+  
+@@ -50,12 +52,11 @@ Signed-off-by: krics <krics@localhost>
+ +/* SerDes status register, reached through the SDS_INDACS window */
+ +#define RTL8365MB_D_SDS_REG_STATUS			0x3D
+ +#define   RTL8365MB_D_SDS_STATUS_LINK			0x0010
+-+
+ +
+  /* SerDes internal registers, accessed via the SDS_INDACS registers. The BMCR
+   * data path reset holds BMCR_ANENABLE | BMCR_ISOLATE while toggling the
+   * vendor-specific low bits from phase 1 to phase 2, which triggers a data path
+-@@ -929,6 +935,8 @@
++@@ -929,6 +934,8 @@
+  	struct rtl8365mb_port ports[RTL8365MB_MAX_NUM_PORTS];
+  	struct phylink_pcs pcs;
+  	bool sds_supported;
+@@ -64,16 +65,18 @@ Signed-off-by: krics <krics@localhost>
+  };
+  
+  #define pcs_to_rtl8365mb(_pcs) container_of((_pcs), struct rtl8365mb, pcs)
+-@@ -1541,6 +1549,30 @@
++@@ -1541,6 +1548,31 @@
+  	if (ret)
+  		return ret;
+  
+-+	/* Stock programs the companion register 0x1D12 with the same value;
+-+	 * programming 0x1D11 alone leaves the receiver hunting.
+-+	 *
+-+	 * The receiver latches on the DISABLE -> HSGMII edge rather than on
+++	/* The receiver latches on the DISABLE -> HSGMII edge rather than on
+ +	 * the value, so park the mode field first: regmap_update_bits() is a
+ +	 * no-op when the register already holds the target value.
+++	 *
+++	 * These are full writes rather than update_bits: misc_val carries
+++	 * every field of SDS_MISC that matters here (the PA enables,
+++	 * MAC6_SEL_SDS0 and the mode), and comes out as 0x0E12 - the same
+++	 * value the stock firmware holds with the trunk up.
+ +	 */
+ +	if (is_d) {
+ +		u32 park = (misc_val & ~RTL8365MB_D_SDS_MISC_MODE_MASK) |
+@@ -83,7 +86,6 @@ Signed-off-by: krics <krics@localhost>
+ +		if (ret)
+ +			return ret;
+ +
+-+
+ +		usleep_range(20000, 25000);
+ +
+ +		ret = regmap_write(priv->map, RTL8365MB_SDS_MISC_REG, misc_val);
+@@ -106,26 +108,32 @@ Signed-off-by: krics <krics@localhost>
+  	 */
+  	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+  		return;
+-@@ -2008,6 +2044,12 @@
++@@ -2008,6 +2044,21 @@
+  			return;
+  		}
+  
+++		/* The work sleeps inside the sequence, so stop an attempt
+++		 * still in flight before re-arming. Only a genuinely new
+++		 * link event resets the budget: re-arming mid-attempt would
+++		 * let a flapping link defeat the retry cap entirely, and the
+++		 * attempt itself parks the mode for 20 ms, which can be what
+++		 * makes the link flap in the first place.
+++		 */
+ +		if (rtl8365mb_interface_is_serdes(interface) &&
+ +		    rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D) {
+-+			mb->sds_relatch_tries = 0;
+++			if (!cancel_delayed_work_sync(&mb->sds_relatch))
+++				mb->sds_relatch_tries = 0;
+++
+ +			schedule_delayed_work(&mb->sds_relatch, 0);
+ +		}
+ +
+  		/* The SerDes has its own pause enables; program them from
+  		 * the resolved pause modes, as the vendor driver does when
+  		 * forcing the link on a SerDes external interface. These
+-@@ -3233,6 +3275,63 @@
++@@ -3233,6 +3284,60 @@
+  	return 0;
+  }
+  
+-+static unsigned int relatch_ms = 0;
+-+module_param(relatch_ms, uint, 0644);
+-+
+ +/* The family D receiver latches on a DISABLE -> HSGMII edge rather than on
+ + * the value in SDS_MISC, and only once the UNIPHY on the SoC side has
+ + * finished its own bring-up. Both pcs_config() and pcs_link_up() run before
+@@ -183,24 +191,25 @@ Signed-off-by: krics <krics@localhost>
+  static int rtl8365mb_setup(struct dsa_switch *ds)
+  {
+  	struct realtek_priv *priv = ds->priv;
+-@@ -3421,6 +3520,10 @@
+- 	/* Start statistics counter polling */
+- 	rtl8365mb_stats_setup(priv);
++@@ -3254,6 +3359,10 @@
++ 	 */
++ 	mb->pcs.poll = true;
+  
+ +	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+ +		INIT_DELAYED_WORK(&mb->sds_relatch,
+ +				  rtl8365mb_sds_relatch_work);
+ +
+- 	return 0;
+- 
+- out_teardown_irq:
+-@@ -3433,6 +3536,9 @@
++ 	ret = rtl8365mb_reset_chip(priv);
++ 	if (ret) {
++ 		dev_err(priv->dev, "failed to reset chip: %pe\n",
++@@ -3433,6 +3542,10 @@
+  static void rtl8365mb_teardown(struct dsa_switch *ds)
+  {
+  	struct realtek_priv *priv = ds->priv;
+ +	struct rtl8365mb *mb = priv->chip_data;
+ +
+-+	cancel_delayed_work_sync(&mb->sds_relatch);
+++	if (rtl8365mb_get_family(priv) == RTL8365MB_FAMILY_D)
+++		cancel_delayed_work_sync(&mb->sds_relatch);
+  
+  	rtl8365mb_stats_teardown(priv);
+  	rtl8365mb_irq_teardown(priv);
