@@ -36,8 +36,7 @@ device: tplink_archer-ax55-v1
 
 # Custom feeds appended to feeds.conf during build. None needed for this
 # device; the mechanism is kept for parity with the AW1000 builder.
-feeds:
-  - src-git homeproxy https://github.com/VIKINGYFY/homeproxy.git
+feeds: []
 
 # Release publishing settings.
 release:
