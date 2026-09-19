@@ -136,6 +136,7 @@ if [[ -n "${CONFIG_FRAGMENT:-}" ]]; then
   cat "$frag" >>.config
 fi
 
+git clone --depth 1 https://github.com/VIKINGYFY/homeproxy.git package/homeproxy
 make defconfig
 
 # Assert defconfig kept the device profile (a wrong symbol name silently
@@ -180,4 +181,3 @@ if [[ -d "$BUILDER_REPO/$DEVICE_DIR/files" ]]; then
 fi
 
 log::info "Build environment ready."
-git clone --depth 1 https://github.com/VIKINGYFY/homeproxy.git $OPENWRT_DIR/package/homeproxy
