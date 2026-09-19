@@ -136,7 +136,7 @@ if [[ -n "${CONFIG_FRAGMENT:-}" ]]; then
   cat "$frag" >>.config
 fi
 
-git clone --depth 1 https://github.com/VIKINGYFY/homeproxy.git package/homeproxy
+git clone --depth 1 https://github.com/immortalwrt/homeproxy.git package/homeproxy
 make defconfig
 
 # Assert defconfig kept the device profile (a wrong symbol name silently
