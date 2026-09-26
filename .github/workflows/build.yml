@@ -1,5 +1,3 @@
-name: Build
-
 # All build/release/cleanup behavior reads its configuration from builder.yml.
 # The cron schedule below is the only knob that cannot be expressed there
 # (GitHub Actions cron values must be static strings in this file).
@@ -110,20 +108,6 @@ jobs:
             echo "sources_sha=$sources_sha"
           } >>"$GITHUB_OUTPUT"
 
-  # Guard against a class of failure the main build cannot see: our config
-  # symbols are correct for OUR configuration, but a downstream builder that
-  # selects every kernel module (eko.one.pl does) drags CONFIG_PTP_1588_CLOCK
-  # to =m, and kconfig then quietly demotes STMMAC_ETH and DWMAC_IPQ5018 with
-  # it. The image still builds and boots, with no eth0. This job reproduces
-  # that configuration and only builds far enough to inspect the kernel
-  # config; it deliberately does not produce or publish an image.
-  #
-  # It compiles the kernel a second time, so it doubles the cost of a run.
-  # What it guards against only changes when the SOURCE changes (kernel
-  # config, patches, device config) - not when a builder script is edited.
-  # So it is skipped for pushes to this repository and runs on the scheduled
-  # source-change builds, plus on demand via "Run workflow". After editing
-  # devices/*/config, dispatch a run manually rather than waiting a day.
   guard-all-kmods:
     name: Guard - kernel config under ALL_KMODS
     needs: [config, check-updates]
@@ -169,6 +153,13 @@ jobs:
           CONFIG_FRAGMENT: config.all-kmods
         run: bash builder/scripts/prepare-build.sh
 
+      - name: Replace HomeProxy with RU Fork
+        working-directory: openwrt
+        run: |
+          set -euo pipefail
+          rm -rf feeds/luci/applications/luci-app-homeproxy feeds/base/homeproxy package/feeds/luci/luci-app-homeproxy 2>/dev/null || true
+          git clone https://github.com/itdoginfo/luci-app-homeproxy package/luci-app-homeproxy
+
       - name: Confirm the fragment took effect
         working-directory: openwrt
         run: |
@@ -177,10 +168,6 @@ jobs:
             || { echo "::error::CONFIG_ALL_KMODS=y did not survive defconfig - guard would be meaningless"; exit 1; }
           echo "CONFIG_ALL_KMODS=y present"
 
-      # target/linux/compile does not pull in its own prerequisites when it is
-      # invoked directly from the top level: without a toolchain in staging_dir
-      # it dies in seconds with a bare "target/linux failed to build". Build
-      # tools and toolchain explicitly first.
       - name: Build tools and toolchain
         working-directory: openwrt
         run: |
@@ -251,11 +238,13 @@ jobs:
           SOURCES_PATCH: ${{ needs.config.outputs.sources_patch }}
         run: bash builder/scripts/prepare-build.sh
 
-      # Costs seconds and covers what this builder structurally cannot: our
-      # patches add Kconfig symbols to the whole qualcommax target, but we only
-      # ever build ipq50xx, so an unanswered symbol breaks sibling subtargets
-      # for downstream builders and never for us. Runs before the long build so
-      # it fails in the first minute rather than the seventieth.
+      - name: Replace HomeProxy with RU Fork
+        working-directory: openwrt
+        run: |
+          set -euo pipefail
+          rm -rf feeds/luci/applications/luci-app-homeproxy feeds/base/homeproxy package/feeds/luci/luci-app-homeproxy 2>/dev/null || true
+          git clone https://github.com/itdoginfo/luci-app-homeproxy package/luci-app-homeproxy
+
       - name: Verify owned Kconfig symbols cover sibling subtargets
         run: |
           bash builder/scripts/check-target-symbols.sh \
@@ -301,7 +290,7 @@ jobs:
           set -euo pipefail
           img=$(find openwrt/bin/targets/qualcommax/ipq50xx -name "*sysupgrade.bin" | head -1)
           [ -n "$img" ] || { echo "::error::no sysupgrade image produced"; exit 1; }
-          bash builder/scripts/check-image.sh "$img" | tee -a "$GITHUB_STEP_SUMMARY"
+          bash builder/scripts/check-image.sh "$img" \vert{} tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7
