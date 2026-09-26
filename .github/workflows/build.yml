@@ -158,7 +158,7 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf feeds/luci/applications/luci-app-homeproxy feeds/base/homeproxy package/feeds/luci/luci-app-homeproxy 2>/dev/null || true
-          git clone https://github.com/itdoginfo/luci-app-homeproxy package/luci-app-homeproxy
+          git clone https://github.com/1andrevich/homeproxy-hiddify package/luci-app-homeproxy
 
       - name: Confirm the fragment took effect
         working-directory: openwrt
@@ -243,7 +243,7 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf feeds/luci/applications/luci-app-homeproxy feeds/base/homeproxy package/feeds/luci/luci-app-homeproxy 2>/dev/null || true
-          git clone https://github.com/itdoginfo/luci-app-homeproxy package/luci-app-homeproxy
+          git clone https://github.com/1andrevich/homeproxy-hiddify package/luci-app-homeproxy
 
       - name: Verify owned Kconfig symbols cover sibling subtargets
         run: |
