@@ -145,8 +145,8 @@ jobs:
         working-directory: openwrt
         run: |
           set -euo pipefail
-          git clone https://github.com/slava-shchipunov/awg-openwrt.git package/awg-openwrt
-          git clone https://github.com/slava-shchipunov/luci-app-amneziawg.git package/luci-app-amneziawg
+          git clone https://github.com/amnezia-vpn/amneziawg-openwrt.git package/awg-openwrt
+          git clone https://github.com/amnezia-vpn/luci-app-amneziawg.git package/luci-app-amneziawg
 
       - name: Confirm the fragment took effect
         working-directory: openwrt
@@ -230,8 +230,8 @@ jobs:
         working-directory: openwrt
         run: |
           set -euo pipefail
-          git clone https://github.com/slava-shchipunov/awg-openwrt.git package/awg-openwrt
-          git clone https://github.com/slava-shchipunov/luci-app-amneziawg.git package/luci-app-amneziawg
+          git clone https://github.com/amnezia-vpn/amneziawg-openwrt.git package/awg-openwrt
+          git clone https://github.com/amnezia-vpn/luci-app-amneziawg.git package/luci-app-amneziawg
 
       - name: Verify owned Kconfig symbols cover sibling subtargets
         run: |
