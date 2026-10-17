@@ -10,26 +10,16 @@ on:
   push:
     branches: [main]
     paths:
-      # Only things that change what lands in the image. Edits to scripts/
-      # are covered by the Lint workflow (shellcheck + unit tests) and by the
-      # next scheduled run; a full build for a script tweak is ~135 runner
-      # minutes for nothing.
       - builder.yml
       - 'devices/**'
       - 'common/**'
       - 'patches/**'
       - '.github/workflows/build.yml'
   schedule:
-    # Nightly. Cheap by design: `check-updates` compares the upstream and
-    # sources SHAs against the newest release and skips in seconds when
-    # nothing moved. Since `upstream` points at our own fork branch, this is
-    # also the ONLY automatic trigger that notices a push to that branch -
-    # pushing there does not touch this repository.
     - cron: "30 3 * * *"
 
 concurrency:
   group: build-${{ github.ref }}
-  # A superseded run can only produce a stale image; stop it burning minutes.
   cancel-in-progress: true
 
 permissions:
@@ -83,8 +73,6 @@ jobs:
           main_sha=$(gh api "repos/${UPSTREAM_REPO}/commits/${UPSTREAM_BRANCH}" --jq .sha)
           sources_sha=$(gh api "repos/${SOURCES_REPO}/commits/${SOURCES_BRANCH}" --jq .sha)
 
-          # Dedup against the newest release for our own prefix. Only a
-          # scheduled tick should dedup; push and workflow_dispatch always build.
           latest_release_body=$(gh api "repos/${GITHUB_REPOSITORY}/releases" \
             --jq "[.[] | select(.tag_name | startswith(\"${RELEASE_PREFIX}\"))][0].body // \"\"" 2>/dev/null || echo "")
 
@@ -153,12 +141,12 @@ jobs:
           CONFIG_FRAGMENT: config.all-kmods
         run: bash builder/scripts/prepare-build.sh
 
-      - name: Replace HomeProxy with RU Fork
+      - name: Inject AmneziaWG sources
         working-directory: openwrt
         run: |
           set -euo pipefail
-          rm -rf feeds/luci/applications/luci-app-homeproxy feeds/base/homeproxy package/feeds/luci/luci-app-homeproxy 2>/dev/null || true
-          git clone https://github.com/1andrevich/homeproxy-hiddify package/luci-app-homeproxy
+          git clone https://github.com/slava-shchipunov/awg-openwrt.git package/awg-openwrt
+          git clone https://github.com/slava-shchipunov/luci-app-amneziawg.git package/luci-app-amneziawg
 
       - name: Confirm the fragment took effect
         working-directory: openwrt
@@ -238,12 +226,12 @@ jobs:
           SOURCES_PATCH: ${{ needs.config.outputs.sources_patch }}
         run: bash builder/scripts/prepare-build.sh
 
-      - name: Replace HomeProxy with RU Fork
+      - name: Inject AmneziaWG sources
         working-directory: openwrt
         run: |
           set -euo pipefail
-          rm -rf feeds/luci/applications/luci-app-homeproxy feeds/base/homeproxy package/feeds/luci/luci-app-homeproxy 2>/dev/null || true
-          git clone https://github.com/1andrevich/homeproxy-hiddify package/luci-app-homeproxy
+          git clone https://github.com/slava-shchipunov/awg-openwrt.git package/awg-openwrt
+          git clone https://github.com/slava-shchipunov/luci-app-amneziawg.git package/luci-app-amneziawg
 
       - name: Verify owned Kconfig symbols cover sibling subtargets
         run: |
