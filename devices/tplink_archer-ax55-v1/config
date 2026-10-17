@@ -16,28 +16,29 @@ CONFIG_PACKAGE_ipq-wifi-tplink_ax55v1=y
 # LuCI web interface (matches what downstream builds ship).
 CONFIG_PACKAGE_luci=y
 CONFIG_PACKAGE_luci-ssl=y
+CONFIG_LUCI_LANG_ru=y
 
 # Small diagnostics that have proven useful on this board.
 CONFIG_PACKAGE_ethtool=y
 CONFIG_PACKAGE_tcpdump-mini=y
 
+# USB and filesystems.
 CONFIG_PACKAGE_kmod-usb-storage=y
 CONFIG_PACKAGE_kmod-fs-ext4=y
 CONFIG_PACKAGE_kmod-fs-vfat=y
 CONFIG_PACKAGE_kmod-nls-cp437=y
 CONFIG_PACKAGE_kmod-nls-iso8859-1=y
 CONFIG_PACKAGE_kmod-nls-utf8=y
-CONFIG_LUCI_LANG_ru=y
 
-
-
-# Custom Routing Stack: AmneziaWG + PBR + sing-box
+# Custom Routing Stack: AmneziaWG 2.0 + PBR + sing-box + TProxy
 CONFIG_PACKAGE_kmod-amneziawg=y
 CONFIG_PACKAGE_amneziawg-tools=y
-CONFIG_PACKAGE_luci-app-amneziawg=y
+CONFIG_PACKAGE_luci-proto-amneziawg=y
 CONFIG_PACKAGE_pbr=y
 CONFIG_PACKAGE_luci-app-pbr=y
 CONFIG_PACKAGE_sing-box=y
+CONFIG_PACKAGE_kmod-nft-tproxy=y
+CONFIG_PACKAGE_kmod-nft-socket=y
 CONFIG_PACKAGE_curl=y
 CONFIG_PACKAGE_jq=y
 CONFIG_PACKAGE_ttyd=y

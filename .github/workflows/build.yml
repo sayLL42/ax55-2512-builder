@@ -14,6 +14,7 @@ on:
       - 'devices/**'
       - 'common/**'
       - 'patches/**'
+      - 'scripts/**'
       - '.github/workflows/build.yml'
   schedule:
     - cron: "30 3 * * *"
@@ -133,13 +134,6 @@ jobs:
         with:
           path: builder
 
-      - name: Inject AmneziaWG sources
-        working-directory: openwrt
-        run: |
-          set -euo pipefail
-          git clone https://github.com/amnezia-vpn/amneziawg-openwrt.git package/amneziawg
-          git clone https://github.com/amnezia-vpn/luci-app-amneziawg.git package/luci-app-amneziawg
-
       - name: Prepare build environment (with ALL_KMODS)
         env:
           OPENWRT_DIR: ${{ github.workspace }}/openwrt
@@ -218,13 +212,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           path: builder
-
-      - name: Inject AmneziaWG sources
-        working-directory: openwrt
-        run: |
-          set -euo pipefail
-          git clone https://github.com/amnezia-vpn/amneziawg-openwrt.git package/amneziawg
-          git clone https://github.com/amnezia-vpn/luci-app-amneziawg.git package/luci-app-amneziawg
 
       - name: Prepare build environment
         env:
